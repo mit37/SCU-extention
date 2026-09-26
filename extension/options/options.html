@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>SCU Course Companion — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <h1>SCU Course Companion — Settings</h1>
+
+  <section>
+    <h2>Your name</h2>
+    <p class="hint">Shown to friends when you share your schedule.</p>
+    <input type="text" id="my-name" placeholder="e.g. Jordan" />
+    <button id="save-name">Save</button>
+  </section>
+
+  <section>
+    <h2>Data</h2>
+    <p class="hint">Everything is stored locally in your browser (schedule/friends sync across your own signed-in Chrome via chrome.storage.sync; ratings cache and syllabi stay on this device).</p>
+    <button id="clear-cache">Clear cached ratings</button>
+    <button id="clear-all">Erase all extension data</button>
+    <div id="status"></div>
+  </section>
+
+  <section>
+    <h2>About the Likeness Score</h2>
+    <p class="hint">
+      A 0–100% estimate of how much students tend to like a professor, blended from
+      their RateMyProfessors rating (55%), "would take again" percentage (25%),
+      inverted difficulty (10%), and signals pulled from crowdsourced syllabi (10%),
+      such as lenient late/attendance policies vs. strict no-exceptions ones.
+      Confidence is lower when a professor has few ratings or no syllabi on file.
+    </p>
+  </section>
+
+  <script src="../lib/storage.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>SCU Course Companion</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>SCU Course Companion</h1>
+    <nav>
+      <button class="tab-btn active" data-tab="lookup">Professors</button>
+      <button class="tab-btn" data-tab="schedule">My Schedule</button>
+      <button class="tab-btn" data-tab="friends">Friends</button>
+    </nav>
+  </header>
+
+  <section id="tab-lookup" class="tab active">
+    <form id="lookup-form">
+      <input type="text" id="lookup-input" placeholder="Professor name (e.g. Smith, John)" required />
+      <button type="submit">Look up</button>
+    </form>
+    <div id="lookup-result"></div>
+  </section>
+
+  <section id="tab-schedule" class="tab">
+    <form id="add-course-form">
+      <input type="text" id="course-code" placeholder="Course (e.g. CSCI 10)" required />
+      <input type="text" id="course-professor" placeholder="Professor" />
+      <button type="submit">Add</button>
+    </form>
+    <ul id="schedule-list"></ul>
+    <div class="share-box">
+      <button id="copy-share-code">Copy share code</button>
+      <button id="email-share-code">Email to a friend</button>
+    </div>
+  </section>
+
+  <section id="tab-friends" class="tab">
+    <form id="import-friend-form">
+      <input type="text" id="friend-code" placeholder="Paste a friend's share code" required />
+      <button type="submit">Add friend</button>
+    </form>
+    <ul id="friends-list"></ul>
+  </section>
+
+  <footer>
+    <a href="../options/options.html" target="_blank">Settings</a>
+  </footer>
+
+  <script src="../lib/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
