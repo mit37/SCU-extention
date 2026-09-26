@@ -13,7 +13,7 @@ async function extractPdfText(file) {
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
     const content = await page.getTextContent();
-    text += content.items.map((item) => item.str).join(' ') + '\n';
+    text += Detect.textFromPdfContent(content.items);
   }
   return text;
 }
@@ -52,6 +52,67 @@ document.getElementById('eval-form').addEventListener('submit', async (e) => {
   const name = await Storage.getSync('myName', '');
   document.getElementById('my-name').value = name;
 })();
+
+const bulkStatusEl = document.getElementById('bulk-syllabus-status');
+const bulkLogEl = document.getElementById('bulk-syllabus-log');
+
+function logLine(text) {
+  const li = document.createElement('li');
+  li.textContent = text;
+  bulkLogEl.appendChild(li);
+}
+
+function addSyllabusMessage(professorName, courseCode, term, fileName, text) {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage(
+      { type: 'ADD_SYLLABUS', professorName, courseCode, term, fileName, text, submittedBy: 'bulk-import' },
+      () => resolve()
+    );
+  });
+}
+
+document.getElementById('bulk-syllabus-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const files = Array.from(document.getElementById('bulk-syllabus-files').files);
+  if (!files.length) return;
+
+  bulkLogEl.innerHTML = '';
+  let imported = 0;
+  let skipped = 0;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    bulkStatusEl.textContent = `Processing ${i + 1} of ${files.length}: ${file.name}…`;
+
+    let text;
+    try {
+      text = await extractPdfText(file);
+    } catch (err) {
+      logLine(`✗ ${file.name} — couldn't read PDF (${err.message || err})`);
+      skipped++;
+      continue;
+    }
+
+    let professor = Detect.professor(text, file.name);
+    if (!professor) {
+      professor = (prompt(`Couldn't find an instructor name in "${file.name}". Whose syllabus is this? (leave blank to skip)`) || '').trim();
+    }
+    if (!professor) {
+      logLine(`✗ ${file.name} — skipped (no professor name)`);
+      skipped++;
+      continue;
+    }
+
+    const courseCode = Detect.courseCode(text);
+    const term = Detect.term(text);
+    await addSyllabusMessage(professor, courseCode, term, file.name, text);
+    logLine(`✓ ${file.name} — ${professor}${courseCode ? ' / ' + courseCode : ''}${term ? ' / ' + term : ''}`);
+    imported++;
+  }
+
+  bulkStatusEl.textContent = `Done — imported ${imported}, skipped ${skipped}.`;
+  e.target.reset();
+});
 
 document.getElementById('save-name').addEventListener('click', async () => {
   const name = document.getElementById('my-name').value.trim();

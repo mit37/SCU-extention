@@ -76,6 +76,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const analyzedScore = Scoring.analyzeSyllabusText(message.text);
       await Storage.addSyllabus(professorKey, {
         courseCode: message.courseCode || null,
+        term: message.term || null,
         fileName: message.fileName || null,
         text: message.text?.slice(0, 20000) || '',
         analyzedScore,

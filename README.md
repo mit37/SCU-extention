@@ -25,11 +25,20 @@ plus lightweight schedule sharing with friends.
   5" or "X% agreed" figures in the extracted text and averages those; if it
   can't find any (report format varies a lot) it falls back to scanning for
   eval-report phrases associated with well- vs. poorly-received instructors.
-- **Syllabus crowdsourcing**: anyone can upload a syllabus (plain text) for a
-  professor from the badge popover. The text is scanned for phrases
-  associated with fairer/harsher policies (drop-lowest, curves, strict
-  no-late-work, mandatory attendance, etc.) and folded into that professor's
-  score. Stored locally in `chrome.storage.local`.
+- **Syllabus crowdsourcing**: anyone can upload a syllabus for a professor
+  from the badge popover (plain text, one at a time) or bulk-import many PDFs
+  at once from the Options page — pick a whole folder's worth and it
+  auto-detects the professor, course code, and term for each one (asking
+  only when a PDF has no clean "Instructor:" line). Text is scanned for
+  phrases associated with fairer/harsher policies (drop-lowest, curves,
+  strict no-late-work, mandatory attendance, etc.) and folded into that
+  professor's score. Stored locally in `chrome.storage.local`.
+- **Bundled baseline dataset**: `extension/data/baseline-syllabi.json` ships
+  with the extension so scores aren't cold-start-empty. It's built from
+  publicly available syllabi (a professor's own page, a department's public
+  course site — never anything behind a login) using `tools/ingest-syllabi.js`
+  and merges with whatever a user has uploaded themselves. See
+  `extension/data/README.md` and `tools/README.md`.
 - **Manual lookup**: the toolbar popup lets you search any professor by name
   without needing to be on a course page.
 - **My Schedule & Friends**: add your classes in the popup, then share them
@@ -77,16 +86,21 @@ the only file that needs updating.
 extension/
   manifest.json
   background.js        # service worker: RMP lookups + caching, syllabus/schedule writes
+  data/
+    baseline-syllabi.json  # bundled starter dataset, see data/README.md
   lib/
     storage.js          # chrome.storage wrapper (cache, syllabi, course evals, schedule, friends)
     rmp.js              # RateMyProfessors GraphQL client + name matching
     scoring.js           # Likeness Score calculation + eval/syllabus text analysis
-    pdfjs/              # bundled pdf.js build, used by the Options page to read eval PDFs locally
+    detect.js            # professor/course/term guessing from PDF text, shared with tools/
+    pdfjs/              # bundled pdf.js build, used by the Options page to read PDFs locally
   content/
     content.js          # finds instructor names on course pages, injects badges
     content.css
   popup/                # toolbar popup: lookup, my schedule, friends
-  options/              # settings: display name, clear data, official eval PDF import
+  options/              # settings, official eval PDF import, bulk syllabus PDF import
+tools/
+  ingest-syllabi.js     # maintainer CLI: folder of syllabus PDFs -> data/baseline-syllabi.json
 ```
 
 ## Possible next steps

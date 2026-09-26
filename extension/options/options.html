@@ -34,6 +34,23 @@
   </section>
 
   <section>
+    <h2>Bulk-import syllabi (PDF, one or many)</h2>
+    <p class="hint">
+      Parsed entirely in your browser, nothing uploaded. Select as many PDFs
+      at once as you want — each one is scanned for an "Instructor:" line,
+      a course code, and a term to file it under automatically. If we can't
+      find a professor's name in a given PDF, you'll be asked for it just
+      for that file before it's added.
+    </p>
+    <form id="bulk-syllabus-form">
+      <input type="file" id="bulk-syllabus-files" accept="application/pdf" multiple required />
+      <button type="submit">Import all</button>
+    </form>
+    <div id="bulk-syllabus-status"></div>
+    <ul id="bulk-syllabus-log"></ul>
+  </section>
+
+  <section>
     <h2>Data</h2>
     <p class="hint">Everything is stored locally in your browser (schedule/friends sync across your own signed-in Chrome via chrome.storage.sync; ratings cache and syllabi stay on this device).</p>
     <button id="clear-cache">Clear cached ratings</button>
@@ -44,16 +61,21 @@
   <section>
     <h2>About the Likeness Score</h2>
     <p class="hint">
-      A 0–100% estimate of how much students tend to like a professor, blended from
-      their RateMyProfessors rating (55%), "would take again" percentage (25%),
-      inverted difficulty (10%), and signals pulled from crowdsourced syllabi (10%),
-      such as lenient late/attendance policies vs. strict no-exceptions ones.
-      Confidence is lower when a professor has few ratings or no syllabi on file.
+      A 0–100% estimate of how much students tend to like a professor, blended
+      from an official course-eval PDF when one's on file (40%, weighted
+      highest since it covers the whole class), their RateMyProfessors rating
+      (33%), "would take again" percentage (15%), inverted difficulty (6%),
+      and signals pulled from crowdsourced syllabi (6%), such as lenient
+      late/attendance policies vs. strict no-exceptions ones. Any signal
+      that's missing drops out and the rest reweight, so a professor with
+      only an RMP rating still gets a sensible score. Confidence is lower
+      when a professor has few ratings and no evals/syllabi on file.
     </p>
   </section>
 
   <script src="../lib/storage.js"></script>
   <script src="../lib/scoring.js"></script>
+  <script src="../lib/detect.js"></script>
   <script src="../lib/pdfjs/pdf.min.js"></script>
   <script src="options.js"></script>
 </body>

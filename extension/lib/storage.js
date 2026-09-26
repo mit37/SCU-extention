@@ -1,3 +1,13 @@
+let baselineSyllabiPromise = null;
+function loadBaselineSyllabi() {
+  if (!baselineSyllabiPromise) {
+    baselineSyllabiPromise = fetch(chrome.runtime.getURL('data/baseline-syllabi.json'))
+      .then((res) => res.json())
+      .catch(() => ({}));
+  }
+  return baselineSyllabiPromise;
+}
+
 const Storage = {
   async get(key, fallback) {
     const result = await chrome.storage.local.get(key);
@@ -29,8 +39,13 @@ const Storage = {
   },
 
   async getSyllabi(professorKey) {
-    const all = await this.get('syllabi', {});
-    return all[professorKey] || [];
+    const [all, baseline] = await Promise.all([
+      this.get('syllabi', {}),
+      loadBaselineSyllabi(),
+    ]);
+    const userUploaded = all[professorKey] || [];
+    const bundled = baseline[professorKey] || [];
+    return [...bundled, ...userUploaded];
   },
   async addSyllabus(professorKey, syllabus) {
     const all = await this.get('syllabi', {});

@@ -1,0 +1,11 @@
+{
+  "name": "scu-extension-tools",
+  "private": true,
+  "description": "Maintainer-only scripts for building the extension's bundled data (not shipped in the extension itself).",
+  "scripts": {
+    "ingest-syllabi": "node ingest-syllabi.js"
+  },
+  "dependencies": {
+    "pdfjs-dist": "3.11.174"
+  }
+}
