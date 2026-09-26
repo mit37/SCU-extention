@@ -14,16 +14,21 @@ async function getProfessorScore(rawName) {
   }
 
   const professorKey = professor ? Rmp_normalizeKey(professor.name) : cacheKey;
-  const syllabi = await Storage.getSyllabi(professorKey);
+  const [syllabi, courseEvals] = await Promise.all([
+    Storage.getSyllabi(professorKey),
+    Storage.getCourseEvals(professorKey),
+  ]);
   const { score, confidence } = Scoring.computeLikenessScore(
     professor || {},
-    syllabi.map((s) => ({ analyzedScore: s.analyzedScore }))
+    syllabi.map((s) => ({ analyzedScore: s.analyzedScore })),
+    courseEvals.map((e) => ({ analyzedScore: e.analyzedScore }))
   );
 
   return {
     query: rawName,
     professor,
     syllabusCount: syllabi.length,
+    evalCount: courseEvals.length,
     score,
     confidence,
   };
@@ -46,6 +51,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const schedule = await Storage.getSchedule();
       schedule.push(message.entry);
       await Storage.setSchedule(schedule);
+      sendResponse({ ok: true });
+    })();
+    return true;
+  }
+
+  if (message?.type === 'ADD_COURSE_EVAL') {
+    (async () => {
+      const professorKey = normalizeName(message.professorName);
+      await Storage.addCourseEval(professorKey, {
+        courseCode: message.courseCode || null,
+        fileName: message.fileName || null,
+        analyzedScore: message.analyzedScore,
+        textSnippet: message.textSnippet?.slice(0, 2000) || '',
+      });
       sendResponse({ ok: true });
     })();
     return true;

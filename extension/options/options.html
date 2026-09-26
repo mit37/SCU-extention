@@ -16,6 +16,24 @@
   </section>
 
   <section>
+    <h2>Import an official SCU course evaluation (PDF)</h2>
+    <p class="hint">
+      Parsed entirely in your browser — the PDF is never uploaded anywhere.
+      We extract its text, pull out numeric rating items where we can find
+      them, and fold the result into that professor's Likeness Score with
+      more weight than RateMyProfessors (since these cover the whole class,
+      not just self-selected reviewers).
+    </p>
+    <form id="eval-form">
+      <input type="text" id="eval-professor" placeholder="Professor name (as it appears on the report)" required />
+      <input type="text" id="eval-course" placeholder="Course code (optional, e.g. CSCI 10)" />
+      <input type="file" id="eval-file" accept="application/pdf" required />
+      <button type="submit">Import PDF</button>
+    </form>
+    <div id="eval-status"></div>
+  </section>
+
+  <section>
     <h2>Data</h2>
     <p class="hint">Everything is stored locally in your browser (schedule/friends sync across your own signed-in Chrome via chrome.storage.sync; ratings cache and syllabi stay on this device).</p>
     <button id="clear-cache">Clear cached ratings</button>
@@ -35,6 +53,8 @@
   </section>
 
   <script src="../lib/storage.js"></script>
+  <script src="../lib/scoring.js"></script>
+  <script src="../lib/pdfjs/pdf.min.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

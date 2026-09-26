@@ -31,7 +31,7 @@ document.getElementById('lookup-form').addEventListener('submit', (e) => {
         <div>RMP: ${result.professor.avgRating}/5 · Difficulty: ${result.professor.avgDifficulty}/5 · ${result.professor.numRatings} ratings</div>
         <div><a href="${result.professor.profileUrl}" target="_blank">View on RateMyProfessors →</a></div>
       ` : '<div>No RateMyProfessors match found at SCU.</div>'}
-      <div>${result.syllabusCount} syllabus upload(s) on file</div>
+      <div>${result.evalCount || 0} official course eval(s) &middot; ${result.syllabusCount} syllabus upload(s) on file</div>
     `;
   });
 });

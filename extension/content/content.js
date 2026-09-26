@@ -65,12 +65,12 @@ function renderPanel(anchorEl, name, courseCode, result) {
       <div class="scu-cc-row"><span>Would take again</span><b>${p.wouldTakeAgainPercent >= 0 ? p.wouldTakeAgainPercent + '%' : '—'}</b></div>
       <div style="margin-top:6px"><a href="${p.profileUrl}" target="_blank" rel="noopener">View on RateMyProfessors →</a></div>
     ` : `<div>No RateMyProfessors match found for this name at SCU.</div>`}
-    <div style="margin-top:4px; color:#666; font-size:11px;">${result.syllabusCount} syllabus upload(s) on file</div>
+    <div style="margin-top:4px; color:#666; font-size:11px;">${result.evalCount || 0} official course eval(s) · ${result.syllabusCount} syllabus upload(s) on file</div>
     <div>
       <button data-action="upload">Upload syllabus</button>
       <button data-action="add-schedule">Add to my schedule</button>
     </div>
-    <input type="file" data-role="syllabus-file" accept=".pdf,.txt,.docx" style="display:none" />
+    <input type="file" data-role="syllabus-file" accept=".txt" style="display:none" />
   `;
 
   document.body.appendChild(panel);

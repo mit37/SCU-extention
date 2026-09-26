@@ -39,6 +39,17 @@ const Storage = {
     await this.set('syllabi', all);
   },
 
+  async getCourseEvals(professorKey) {
+    const all = await this.get('courseEvals', {});
+    return all[professorKey] || [];
+  },
+  async addCourseEval(professorKey, evalRecord) {
+    const all = await this.get('courseEvals', {});
+    all[professorKey] = all[professorKey] || [];
+    all[professorKey].push({ ...evalRecord, addedAt: Date.now() });
+    await this.set('courseEvals', all);
+  },
+
   async getSchedule() {
     return this.getSync('mySchedule', []);
   },

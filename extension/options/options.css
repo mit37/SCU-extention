@@ -26,4 +26,6 @@ button {
   margin-right: 8px;
 }
 button.secondary { background: #fff; color: #862633; }
-#status { margin-top: 8px; font-size: 12px; color: #1a7a3c; }
+#status, #eval-status { margin-top: 8px; font-size: 12px; color: #1a7a3c; }
+#eval-form input[type="text"] { display: block; margin-bottom: 8px; width: 320px; }
+#eval-form input[type="file"] { display: block; margin-bottom: 10px; }

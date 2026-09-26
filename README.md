@@ -10,12 +10,23 @@ plus lightweight schedule sharing with friends.
   script scans for instructor names (matching Workday's `Last, First` format,
   or `First Last` next to an "Instructor" label) and injects a badge with a
   0–100% score. Click it for a breakdown and a link to the full RMP profile.
-- **Blended rating**: the score combines RateMyProfessors' average rating
-  (55%), "would take again" % (25%), inverted difficulty (10%), and signals
-  extracted from crowdsourced syllabi (10%) — see `lib/scoring.js`. Confidence
+- **Blended rating**: the score combines an official SCU course-eval PDF when
+  one's been imported (40%, the heaviest weight since it covers the whole
+  class rather than self-selected reviewers), RateMyProfessors' average
+  rating (33%), "would take again" % (15%), inverted difficulty (6%), and
+  signals extracted from crowdsourced syllabi (6%) — see `lib/scoring.js`.
+  Any signal that's missing just drops out and the rest renormalize, so a
+  professor with only an RMP rating still gets a sensible score. Confidence
   is flagged low/medium/high based on how much data backs it.
-- **Syllabus crowdsourcing**: anyone can upload a syllabus (txt/pdf/docx) for
-  a professor from the badge popover. The text is scanned for phrases
+- **Official course-eval import**: the Options page lets you import an SCU
+  course evaluation PDF for a professor. It's parsed entirely client-side
+  with a bundled copy of `pdf.js` (`lib/pdfjs/`) — nothing is uploaded
+  anywhere. `Scoring.analyzeEvalText` first looks for Likert-style "X out of
+  5" or "X% agreed" figures in the extracted text and averages those; if it
+  can't find any (report format varies a lot) it falls back to scanning for
+  eval-report phrases associated with well- vs. poorly-received instructors.
+- **Syllabus crowdsourcing**: anyone can upload a syllabus (plain text) for a
+  professor from the badge popover. The text is scanned for phrases
   associated with fairer/harsher policies (drop-lowest, curves, strict
   no-late-work, mandatory attendance, etc.) and folded into that professor's
   score. Stored locally in `chrome.storage.local`.
@@ -67,14 +78,15 @@ extension/
   manifest.json
   background.js        # service worker: RMP lookups + caching, syllabus/schedule writes
   lib/
-    storage.js          # chrome.storage wrapper (cache, syllabi, schedule, friends)
+    storage.js          # chrome.storage wrapper (cache, syllabi, course evals, schedule, friends)
     rmp.js              # RateMyProfessors GraphQL client + name matching
-    scoring.js           # Likeness Score calculation
+    scoring.js           # Likeness Score calculation + eval/syllabus text analysis
+    pdfjs/              # bundled pdf.js build, used by the Options page to read eval PDFs locally
   content/
     content.js          # finds instructor names on course pages, injects badges
     content.css
   popup/                # toolbar popup: lookup, my schedule, friends
-  options/              # settings: display name, clear data
+  options/              # settings: display name, clear data, official eval PDF import
 ```
 
 ## Possible next steps
@@ -82,8 +94,12 @@ extension/
 - A small backend for real accounts, push-based friend requests, and actual
   seat-count polling (would also let syllabi/ratings be shared across all
   users instead of per-browser).
-- OCR/PDF text extraction for scanned syllabi (currently only plain text
-  extraction via `file.text()`, which works for `.txt` and text-based PDFs
-  but not scanned images).
+- Extend syllabus uploads (currently `.txt` only, via the badge popover) to
+  accept PDFs too, the same way official evals do via `pdf.js` on the Options
+  page — held off there for now since content scripts run on arbitrary SCU/
+  Workday pages whose own CSP could in principle block spawning the pdf.js
+  worker, whereas the Options page is always same-origin with the extension.
+- OCR for scanned (image-only) eval or syllabus PDFs, which `pdf.js` text
+  extraction can't read since there's no embedded text layer.
 - Firefox/Edge builds (the codebase is vanilla MV3 JS with no Chrome-only
   APIs beyond `chrome.*`, which Firefox supports via the `browser.*` polyfill).
