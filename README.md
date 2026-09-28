@@ -13,11 +13,18 @@ plus lightweight schedule sharing with friends.
 - **Blended rating**: the score combines an official SCU course-eval PDF when
   one's been imported (40%, the heaviest weight since it covers the whole
   class rather than self-selected reviewers), RateMyProfessors' average
-  rating (33%), "would take again" % (15%), inverted difficulty (6%), and
-  signals extracted from crowdsourced syllabi (6%) — see `lib/scoring.js`.
-  Any signal that's missing just drops out and the rest renormalize, so a
-  professor with only an RMP rating still gets a sensible score. Confidence
-  is flagged low/medium/high based on how much data backs it.
+  rating (33%), "would take again" % (15%), ease (6% — inverted RMP
+  difficulty and syllabus difficulty, averaged), and syllabus policy fairness
+  (6%) — see `lib/scoring.js`. Any signal that's missing just drops out and
+  the rest renormalize, so a professor with only an RMP rating still gets a
+  sensible score. Confidence is flagged low/medium/high based on how much
+  data backs it; low-confidence badges get a dashed border.
+- **Syllabus difficulty rating**: every syllabus (bundled, bulk-imported, or
+  uploaded) gets a 0–100 difficulty score with the reasons behind it — number
+  of midterms, share of the grade from exams, cumulative final, weekly
+  quizzes/homework, curve or no curve, dropped lowest score, late-work
+  policy, and so on. The popup and badge panel show a professor's average
+  across all their syllabi plus the most common "harder"/"easier" reasons.
 - **Official course-eval import**: the Options page lets you import an SCU
   course evaluation PDF for a professor. It's parsed entirely client-side
   with a bundled copy of `pdf.js` (`lib/pdfjs/`) — nothing is uploaded
@@ -35,10 +42,11 @@ plus lightweight schedule sharing with friends.
   professor's score. Stored locally in `chrome.storage.local`.
 - **Bundled baseline dataset**: `extension/data/baseline-syllabi.json` ships
   with the extension so scores aren't cold-start-empty. It's built from
-  publicly available syllabi (a professor's own page, a department's public
-  course site — never anything behind a login) using `tools/ingest-syllabi.js`
-  and merges with whatever a user has uploaded themselves. See
-  `extension/data/README.md` and `tools/README.md`.
+  publicly hosted syllabi listed in `tools/public-syllabi-sources.json`
+  (faculty and department pages on scu.edu, or instructor-owned course
+  sites — never anything behind a login, never homework-sharing sites) via
+  `cd tools && npm install && npm run build-baseline`, and merges with
+  whatever a user has uploaded themselves. See `tools/README.md`.
 - **Manual lookup**: the toolbar popup lets you search any professor by name
   without needing to be on a course page.
 - **My Schedule & Friends**: add your classes in the popup, then share them
@@ -90,9 +98,10 @@ extension/
     baseline-syllabi.json  # bundled starter dataset, see data/README.md
   lib/
     storage.js          # chrome.storage wrapper (cache, syllabi, course evals, schedule, friends)
-    rmp.js              # RateMyProfessors GraphQL client + name matching
-    scoring.js           # Likeness Score calculation + eval/syllabus text analysis
-    detect.js            # professor/course/term guessing from PDF text, shared with tools/
+    rmp.js              # RateMyProfessors GraphQL client + name normalization/matching
+    scoring.js          # Likeness Score, syllabus difficulty/fairness, eval text analysis
+    detect.js           # professor/course/term detection, shared with tools/
+    html.js             # escapeHtml for anything interpolated into innerHTML
     pdfjs/              # bundled pdf.js build, used by the Options page to read PDFs locally
   content/
     content.js          # finds instructor names on course pages, injects badges
@@ -100,7 +109,10 @@ extension/
   popup/                # toolbar popup: lookup, my schedule, friends
   options/              # settings, official eval PDF import, bulk syllabus PDF import
 tools/
-  ingest-syllabi.js     # maintainer CLI: folder of syllabus PDFs -> data/baseline-syllabi.json
+  public-syllabi-sources.json  # verified list of publicly hosted SCU syllabi
+  fetch-syllabi.js      # downloads that list politely into tools/downloads/
+  ingest-syllabi.js     # scores a folder of PDFs/HTML into data/baseline-syllabi.json
+  test/                 # node:test unit + end-to-end tests (npm test)
 ```
 
 ## Possible next steps

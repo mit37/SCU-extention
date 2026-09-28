@@ -1,41 +1,39 @@
 importScripts('lib/storage.js', 'lib/rmp.js', 'lib/scoring.js');
 
 async function getProfessorScore(rawName) {
-  const cacheKey = Rmp_normalizeKey(rawName);
+  const queryKey = normalizeName(rawName);
 
-  let professor = await Storage.getProfessorCache(cacheKey);
+  let professor = await Storage.getProfessorCache(queryKey);
   if (!professor) {
     try {
       professor = await findProfessor(rawName);
     } catch (err) {
       professor = null;
     }
-    if (professor) await Storage.setProfessorCache(cacheKey, professor);
+    if (professor) await Storage.setProfessorCache(queryKey, professor);
   }
 
-  const professorKey = professor ? Rmp_normalizeKey(professor.name) : cacheKey;
-  const [syllabi, courseEvals] = await Promise.all([
-    Storage.getSyllabi(professorKey),
-    Storage.getCourseEvals(professorKey),
+  // RMP's spelling can differ from the one on the course page or syllabus
+  // ("Ming Wang" vs "Ming-Hwa Wang"), so read data filed under either.
+  const keys = [...new Set([queryKey, professor && normalizeName(professor.name)].filter(Boolean))];
+  const [syllabiLists, evalLists] = await Promise.all([
+    Promise.all(keys.map((k) => Storage.getSyllabi(k))),
+    Promise.all(keys.map((k) => Storage.getCourseEvals(k))),
   ]);
-  const { score, confidence } = Scoring.computeLikenessScore(
-    professor || {},
-    syllabi.map((s) => ({ analyzedScore: s.analyzedScore })),
-    courseEvals.map((e) => ({ analyzedScore: e.analyzedScore }))
-  );
+  const syllabi = syllabiLists.flat();
+  const courseEvals = evalLists.flat();
+
+  const { score, confidence } = Scoring.computeLikenessScore(professor || {}, syllabi, courseEvals);
 
   return {
     query: rawName,
     professor,
     syllabusCount: syllabi.length,
     evalCount: courseEvals.length,
+    syllabusDifficulty: Scoring.summarizeSyllabusDifficulty(syllabi),
     score,
     confidence,
   };
-}
-
-function Rmp_normalizeKey(name) {
-  return normalizeName(name);
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -73,16 +71,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === 'ADD_SYLLABUS') {
     (async () => {
       const professorKey = normalizeName(message.professorName);
-      const analyzedScore = Scoring.analyzeSyllabusText(message.text);
+      const analysis = Scoring.analyzeSyllabus(message.text);
       await Storage.addSyllabus(professorKey, {
         courseCode: message.courseCode || null,
         term: message.term || null,
         fileName: message.fileName || null,
         text: message.text?.slice(0, 20000) || '',
-        analyzedScore,
+        fairnessScore: analysis ? analysis.fairness : null,
+        difficultyScore: analysis ? analysis.difficulty : null,
+        signals: analysis ? analysis.signals : [],
         submittedBy: message.submittedBy || 'anonymous',
       });
-      sendResponse({ ok: true });
+      sendResponse({ ok: true, analysis });
     })();
     return true;
   }

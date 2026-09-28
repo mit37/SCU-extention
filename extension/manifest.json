@@ -29,7 +29,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.scu.edu/*", "*://*.myworkday.com/*"],
-      "js": ["content/content.js"],
+      "js": ["lib/html.js", "lib/detect.js", "content/content.js"],
       "css": ["content/content.css"],
       "run_at": "document_idle"
     }

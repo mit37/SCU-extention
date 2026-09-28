@@ -15,6 +15,7 @@
 .scu-cc-badge[data-tier="mid"] { background: #fff5e0; color: #966600; border-color: #ffe7ad; }
 .scu-cc-badge[data-tier="low"] { background: #fde8e8; color: #b02a2a; border-color: #f6c2c2; }
 .scu-cc-badge[data-tier="none"] { background: #eee; color: #666; border-color: #ddd; }
+.scu-cc-badge[data-confidence="low"] { border-style: dashed; }
 .scu-cc-badge:hover { filter: brightness(0.96); }
 
 .scu-cc-panel {
@@ -33,6 +34,7 @@
 .scu-cc-panel .scu-cc-meta { color: #666; font-size: 12px; margin-bottom: 8px; }
 .scu-cc-panel .scu-cc-row { display: flex; justify-content: space-between; margin: 3px 0; }
 .scu-cc-panel .scu-cc-row b { font-variant-numeric: tabular-nums; }
+.scu-cc-panel .scu-cc-why { color: #666; font-size: 11px; margin: 1px 0; }
 .scu-cc-panel button {
   margin-top: 8px;
   margin-right: 6px;

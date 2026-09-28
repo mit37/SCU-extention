@@ -67,6 +67,8 @@ li button { background: none; border: none; color: #b02a2a; padding: 2px 4px; }
 #lookup-result .tier-mid { color: #966600; }
 #lookup-result .tier-low { color: #b02a2a; }
 #lookup-result .tier-none { color: #666; }
+#lookup-result .difficulty { margin-top: 6px; }
+#lookup-result .meta { color: #666; font-size: 11px; }
 
 footer { padding: 8px 14px; text-align: right; }
 footer a { font-size: 11px; color: #862633; }

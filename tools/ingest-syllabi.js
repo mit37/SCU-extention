@@ -1,15 +1,17 @@
 #!/usr/bin/env node
-// Batch-processes a folder of syllabus PDFs into extension/data/baseline-syllabi.json.
-// Usage: node ingest-syllabi.js <folder-of-pdfs>
+// Turns a folder of syllabus files (.pdf, .html, .htm) into entries in
+// extension/data/baseline-syllabi.json.
 //
-// Auto-detects professor name, course code, and term from each PDF's text.
-// When detection is unreliable, drop a manifest.json in the same folder:
-//   { "some-file.pdf": { "professor": "Jane Smith", "courseCode": "COEN 280",
-//                         "term": "Fall 2020", "sourceUrl": "https://..." } }
-// Manifest entries override auto-detection field by field.
+// Usage: node ingest-syllabi.js <folder> [--out <path>]
 //
-// Only feed this PDFs that are legitimately public (a professor's own
-// department page, a public course site) — see extension/data/README.md.
+// Professor, course code, and term are auto-detected from each file's text.
+// A manifest.json in the same folder overrides detection per file — this is
+// what fetch-syllabi.js writes, carrying the verified metadata from
+// public-syllabi-sources.json:
+//   { "file.pdf": { "professor": "Jane Smith", "courseCode": "COEN 280",
+//                   "term": "Fall 2020", "sourceUrl": "https://..." } }
+//
+// Only feed this publicly reachable syllabi — see extension/data/README.md.
 
 const fs = require('fs');
 const path = require('path');
@@ -19,9 +21,16 @@ const { normalizeName } = require('../extension/lib/rmp.js');
 const Scoring = require('../extension/lib/scoring.js');
 const Detect = require('../extension/lib/detect.js');
 
-async function extractText(filePath) {
+const STANDARD_FONTS = path.join(path.dirname(require.resolve('pdfjs-dist/package.json')), 'standard_fonts') + path.sep;
+const SUPPORTED = /\.(pdf|html?)$/i;
+
+async function pdfText(filePath) {
   const data = new Uint8Array(fs.readFileSync(filePath));
-  const doc = await pdfjsLib.getDocument({ data }).promise;
+  const doc = await pdfjsLib.getDocument({
+    data,
+    verbosity: pdfjsLib.VerbosityLevel.ERRORS,
+    standardFontDataUrl: STANDARD_FONTS,
+  }).promise;
   let text = '';
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
@@ -31,81 +40,131 @@ async function extractText(filePath) {
   return text;
 }
 
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', ndash: '–', mdash: '—', rsquo: '’', lsquo: '‘' };
+
+function htmlToText(html) {
+  return html
+    .replace(/<(script|style|noscript)[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|li|tr|h[1-6]|section|article|table|ul|ol|dd|dt)>/gi, '\n')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
+      if (e[0] === '#') {
+        const code = e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+        return Number.isFinite(code) ? String.fromCodePoint(code) : m;
+      }
+      return ENTITIES[e.toLowerCase()] ?? m;
+    })
+    .replace(/[ \t]+/g, ' ')
+    .replace(/ *\n */g, '\n')
+    .replace(/\n{3,}/g, '\n\n');
+}
+
+async function extractText(filePath) {
+  if (/\.pdf$/i.test(filePath)) return pdfText(filePath);
+  return htmlToText(fs.readFileSync(filePath, 'utf8'));
+}
+
+function parseArgs(argv) {
+  const args = { dir: null, out: path.join(__dirname, '..', 'extension', 'data', 'baseline-syllabi.json') };
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === '--out') args.out = path.resolve(argv[++i]);
+    else if (!args.dir) args.dir = argv[i];
+  }
+  return args;
+}
+
 async function main() {
-  const dir = process.argv[2];
+  const { dir, out } = parseArgs(process.argv.slice(2));
   if (!dir) {
-    console.error('Usage: node ingest-syllabi.js <folder-of-pdfs>');
+    console.error('Usage: node ingest-syllabi.js <folder> [--out <path>]');
     process.exit(1);
   }
 
   const manifestPath = path.join(dir, 'manifest.json');
-  const manifest = fs.existsSync(manifestPath)
-    ? JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-    : {};
+  const manifest = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')) : {};
+  const existing = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : {};
 
-  const outPath = path.join(__dirname, '..', 'extension', 'data', 'baseline-syllabi.json');
-  const existing = fs.existsSync(outPath) ? JSON.parse(fs.readFileSync(outPath, 'utf8')) : {};
-
-  const files = fs.readdirSync(dir).filter((f) => f.toLowerCase().endsWith('.pdf'));
+  const files = fs.readdirSync(dir).filter((f) => SUPPORTED.test(f)).sort();
   if (files.length === 0) {
-    console.error(`No PDFs found in ${dir}`);
+    console.error(`No .pdf/.html files found in ${dir}`);
     process.exit(1);
   }
 
   let imported = 0;
-  let skipped = 0;
+  const skipped = [];
 
   for (const fileName of files) {
-    const filePath = path.join(dir, fileName);
     const overrides = manifest[fileName] || {};
-    process.stdout.write(`Processing ${fileName}... `);
+    const identity = overrides.sourceUrl || fileName;
 
     let text;
     try {
-      text = await extractText(filePath);
+      text = await extractText(path.join(dir, fileName));
     } catch (err) {
-      console.log(`FAILED to read PDF (${err.message})`);
-      skipped++;
+      skipped.push(`${fileName}: could not read (${err.message})`);
       continue;
     }
 
-    const professor = overrides.professor || Detect.professor(text, fileName);
-    const courseCode = overrides.courseCode || Detect.courseCode(text);
-    const term = overrides.term || Detect.term(text);
-    const analyzedScore = Scoring.analyzeSyllabusText(text);
+    const analysis = Scoring.analyzeSyllabus(text);
+    if (!analysis || text.trim().length < 200) {
+      skipped.push(`${fileName}: no usable text (scanned image PDF or empty page?)`);
+      continue;
+    }
 
+    const professor = overrides.professor || Detect.professor(text);
     if (!professor) {
-      console.log('SKIPPED — could not determine professor (add it to manifest.json)');
-      skipped++;
+      skipped.push(`${fileName}: no professor name found (set "professor" in manifest.json)`);
+      continue;
+    }
+    const key = normalizeName(professor);
+    if (!key) {
+      skipped.push(`${fileName}: professor "${professor}" normalizes to an empty key`);
       continue;
     }
 
-    const key = normalizeName(professor);
-    existing[key] = existing[key] || [];
-    // Replace a prior entry for the same file rather than duplicating it.
-    existing[key] = existing[key].filter((e) => e.fileName !== fileName);
-    existing[key].push({
-      courseCode: courseCode || null,
-      term: term || null,
+    const entry = {
+      professor,
+      courseCode: overrides.courseCode || Detect.courseCode(text) || null,
+      courseTitle: overrides.courseTitle || null,
+      term: overrides.term || Detect.term(text) || null,
       fileName,
       sourceUrl: overrides.sourceUrl || null,
-      analyzedScore,
-    });
+      professorCurrentlyAtScu: overrides.professorCurrentlyAtScu || 'unknown',
+      fairnessScore: analysis.fairness,
+      difficultyScore: analysis.difficulty,
+      signals: analysis.signals,
+    };
 
-    console.log(`OK — ${professor} / ${courseCode || '?'} / ${term || '?'} → score ${analyzedScore}`);
+    // A re-run may attribute a file to a different professor (e.g. after a
+    // manifest fix), so drop its previous entry from every key.
+    for (const k of Object.keys(existing)) {
+      existing[k] = existing[k].filter((e) => (e.sourceUrl || e.fileName) !== identity);
+      if (!existing[k].length) delete existing[k];
+    }
+    (existing[key] = existing[key] || []).push(entry);
+
+    const why = analysis.signals.filter((s) => s.difficulty !== 0).map((s) => s.label).join(', ') || 'no strong signals';
+    console.log(`OK   ${fileName} — ${professor} / ${entry.courseCode || '?'} / ${entry.term || '?'} → difficulty ${analysis.difficulty}, fairness ${analysis.fairness} (${why})`);
     imported++;
   }
 
-  const sorted = Object.keys(existing).sort().reduce((acc, k) => {
-    acc[k] = existing[k];
-    return acc;
-  }, {});
-  fs.writeFileSync(outPath, JSON.stringify(sorted, null, 2) + '\n');
+  const sorted = {};
+  for (const key of Object.keys(existing).sort()) {
+    sorted[key] = existing[key].sort((a, b) => String(a.courseCode).localeCompare(String(b.courseCode)) || String(a.term).localeCompare(String(b.term)));
+  }
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, JSON.stringify(sorted, null, 2) + '\n');
 
-  console.log(`\nImported ${imported}, skipped ${skipped}. Wrote ${outPath}`);
+  for (const s of skipped) console.log(`SKIP ${s}`);
+  console.log(`\nImported ${imported}, skipped ${skipped.length}. Wrote ${out}`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+module.exports = { htmlToText };

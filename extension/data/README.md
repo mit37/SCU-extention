@@ -1,10 +1,9 @@
 # Baseline syllabus dataset
 
-`baseline-syllabi.json` ships inside the extension and is loaded once by the
-background service worker (`background.js`) as a starting data source for
-the Likeness Score, on top of whatever a given user has uploaded themselves
-via the Options page. It exists so the score isn't cold-start-empty for
-professors nobody local has fed data for yet.
+`baseline-syllabi.json` ships inside the extension and is loaded by the
+background service worker as a starting data source for each professor's
+syllabus difficulty rating and Likeness Score, merged with whatever a user
+has uploaded themselves. It exists so scores aren't cold-start-empty.
 
 ## Format
 
@@ -12,30 +11,31 @@ professors nobody local has fed data for yet.
 {
   "<normalized professor key>": [
     {
+      "professor": "Ming-Hwa Wang",
       "courseCode": "COEN 280",
+      "courseTitle": "Database Systems",
       "term": "Fall 2020",
-      "fileName": "Syllabus280.pdf",
+      "fileName": "3f2a9c1b7e-syllabus280.pdf",
       "sourceUrl": "https://www.cse.scu.edu/~m1wang/database/Syllabus280.pdf",
-      "analyzedScore": 62
+      "professorCurrentlyAtScu": "yes",
+      "fairnessScore": 34,
+      "difficultyScore": 82,
+      "signals": [{ "label": "cumulative final", "difficulty": 6 }]
     }
   ]
 }
 ```
 
-- The key is `lib/rmp.js`'s `normalizeName()` output (lowercased, punctuation
-  stripped, tokens sorted) — the same key everything else (RMP cache,
-  user-uploaded syllabi, course evals) is filed under, so a professor's
-  score merges signal regardless of source or which name-format detected it.
-- `analyzedScore` is `Scoring.analyzeSyllabusText()`'s 0-100 output — do not
-  hand-pick this number; regenerate it by running the syllabus text through
-  that function so it stays consistent with what a live upload would produce.
-- `sourceUrl` should always point at a publicly reachable page — this file
-  is meant for material anyone could already find themselves (a professor's
-  own department page, a public course site), not anything gated behind a
-  login.
+- The key is `lib/rmp.js`'s `normalizeName()` output (lowercased, titles and
+  initials dropped, tokens sorted), the same key RMP cache entries, user
+  uploads, and course evals are filed under.
+- `fairnessScore`, `difficultyScore`, and `signals` come from
+  `Scoring.analyzeSyllabus()`. Never hand-edit them; regenerate by
+  re-running the ingest so they stay consistent with live uploads.
+- `sourceUrl` must be publicly reachable — a professor's own page or a
+  department's public course site, never anything behind a login, and never
+  third-party homework-sharing sites.
 
 ## Regenerating
 
-Use `tools/ingest-syllabi.js` (see `tools/README.md`) rather than editing
-this file by hand — it does the text extraction and scoring consistently
-and merges into the existing file instead of clobbering it.
+From `tools/`: `npm install && npm run build-baseline`. See `tools/README.md`.

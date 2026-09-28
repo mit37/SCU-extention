@@ -40,20 +40,21 @@ async function rmpGraphQL(query, variables) {
   return res.json();
 }
 
+const NAME_NOISE = new Set(['dr', 'prof', 'professor', 'mr', 'mrs', 'ms', 'mx', 'phd']);
+
 // Used both as a fuzzy-match key against RMP search results and as the
-// storage key syllabi/evals/cache are filed under. It has to treat
-// "Smith,Jane" (Workday's own rendering, no space after the comma) and
-// "Jane Smith" (typed by a person in the popup/options page) as the same
-// professor, so punctuation becomes a separator (not just stripped, or
-// "Smith,Jane" collapses into "smithjane") and the tokens are sorted so
-// last-first and first-last orderings produce the same key.
+// storage key syllabi/evals/cache are filed under. "Smith,Jane" (Workday),
+// "Jane Smith" (typed), "Dr. Jane Q. Smith" (syllabus header) and
+// "Smith, Jane Q" must all collide: punctuation becomes a separator (else
+// "Smith,Jane" collapses to "smithjane"), titles and single-letter initials
+// are dropped, and tokens are sorted so last-first and first-last agree.
 function normalizeName(name) {
   return name
     .toLowerCase()
     .replace(/[^a-z]+/g, ' ')
     .trim()
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((t) => t.length > 1 && !NAME_NOISE.has(t))
     .sort()
     .join(' ');
 }

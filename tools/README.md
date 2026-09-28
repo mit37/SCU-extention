@@ -1,55 +1,58 @@
 # Maintainer tools
 
-Scripts here build `extension/data/baseline-syllabi.json`, the starter
-dataset shipped with the extension. They are **not** part of the extension
-itself — nothing here is loaded by `manifest.json`.
-
-## Setup
+Scripts that build `extension/data/baseline-syllabi.json`, the starter
+dataset shipped with the extension. Nothing here is loaded by the extension.
 
 ```
 cd tools
 npm install
+npm run build-baseline   # fetch every public syllabus, then score them
+npm test                 # unit + end-to-end tests
 ```
 
-## Ingesting a batch of syllabus PDFs
+## Pipeline
 
-```
-node ingest-syllabi.js /path/to/folder-of-pdfs
-```
+1. **`public-syllabi-sources.json`** lists publicly hosted SCU syllabi (scu.edu
+   faculty/department pages, or instructor-owned course sites) with verified
+   professor, course, and term. It was assembled from web-search results and
+   each URL was checked to actually appear in search results. Homework-sharing
+   sites (Course Hero, Studocu, Quizlet, Chegg, …) are deliberately excluded.
+2. **`fetch-syllabi.js`** downloads each URL into `downloads/` (gitignored):
+   one request at a time with a 1s pause, a descriptive User-Agent, retries on
+   5xx/429, and a check that a "PDF" really is a PDF (catches login-wall
+   redirects). Files already downloaded are skipped on re-runs. It writes
+   `downloads/manifest.json` (the verified metadata per file) and
+   `downloads/fetch-report.json` (what failed and why).
+3. **`ingest-syllabi.js <folder> [--out <path>]`** extracts text from each
+   `.pdf`/`.html`, runs `Scoring.analyzeSyllabus()` for a 0–100 difficulty and
+   fairness score plus human-readable reasons, and merges the result into the
+   baseline file, keyed by normalized professor name. Metadata from
+   `manifest.json` wins over auto-detection. Re-running is idempotent.
 
-For each `.pdf` in the folder, it:
-1. Extracts text with `pdfjs-dist`.
-2. Guesses the professor's name (an "Instructor:" line, falling back to
-   capitalized words in the filename), the course code, and the term.
-3. Scores the syllabus text with the same `Scoring.analyzeSyllabusText()`
-   the extension itself uses, so results are consistent with a live upload.
-4. Merges the result into `extension/data/baseline-syllabi.json`, keyed by
-   the professor's normalized name (matching `lib/rmp.js`'s `normalizeName`)
-   so it lines up with RMP cache entries, user-uploaded syllabi, and course
-   evals for the same person.
+Behind a corporate/sandbox proxy, Node's `fetch` ignores `HTTPS_PROXY` unless
+you run with `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
 
-Auto-detection is a best guess — when a syllabus doesn't have a clean
-"Instructor:" line, or the course-code/term regexes miss, add a
-`manifest.json` next to the PDFs to override specific fields per file:
+## Adding your own files
+
+Drop PDFs/HTML into any folder and run `node ingest-syllabi.js <folder>`.
+Professor/course/term are auto-detected (an "Instructor:" line, an SCU course
+prefix like `COEN 280`, a "Fall 2024" style term). When detection misses, add a
+`manifest.json` next to the files:
 
 ```json
-{
-  "some-syllabus.pdf": {
-    "professor": "Jane Smith",
-    "courseCode": "COEN 280",
-    "term": "Fall 2020",
-    "sourceUrl": "https://example.scu.edu/~jsmith/syllabus.pdf"
-  }
-}
+{ "some-syllabus.pdf": { "professor": "Jane Smith", "courseCode": "COEN 280", "term": "Fall 2020", "sourceUrl": "https://…" } }
 ```
 
-Re-running the script is safe — it replaces any prior entry for the same
-filename instead of duplicating it, and leaves every other professor's
-entries untouched.
+Only use syllabi that are legitimately public — anyone without an SCU login
+should be able to open `sourceUrl`.
 
-## Only public material
+## How difficulty is scored
 
-Only run this against syllabi anyone could already find themselves (a
-professor's own page, a department's public course site) — not anything
-pulled from behind a Canvas/Workday login. `sourceUrl` should always be a
-link you could hand someone with no SCU credentials and have it load.
+`Scoring.analyzeSyllabus()` in `extension/lib/scoring.js` starts at 50 and
+adds or subtracts for each signal it finds, each with a label shown to users:
+number of midterms/exams, share of the grade from exams, cumulative final,
+weekly quizzes/homework, major projects and long papers (harder); no final,
+curved grading, dropped lowest score, extra credit, late-work grace, open
+book, resubmissions (easier). Negations are handled ("not curved" ≠ "curved").
+It's a transparent heuristic, not a model — the unit tests in `test/` pin down
+its behavior, and it should be re-tuned as real syllabi come in.

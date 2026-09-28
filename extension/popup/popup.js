@@ -23,15 +23,22 @@ document.getElementById('lookup-form').addEventListener('submit', (e) => {
     const tier = result.score === null ? 'none'
       : result.score >= 70 ? 'high'
       : result.score >= 45 ? 'mid' : 'low';
+    const p = result.professor;
+    const d = result.syllabusDifficulty;
 
     resultEl.innerHTML = `
-      <div class="score tier-${tier}">${result.score !== null ? result.score + '%' : '—'}</div>
-      <div>${result.professor ? result.professor.name : name}</div>
-      ${result.professor ? `
-        <div>RMP: ${result.professor.avgRating}/5 · Difficulty: ${result.professor.avgDifficulty}/5 · ${result.professor.numRatings} ratings</div>
-        <div><a href="${result.professor.profileUrl}" target="_blank">View on RateMyProfessors →</a></div>
+      <div class="score tier-${tier}">${result.score !== null ? escapeHtml(result.score) + '%' : '—'}</div>
+      <div>${escapeHtml(p ? p.name : name)}</div>
+      ${p ? `
+        <div>RMP: ${escapeHtml(p.avgRating)}/5 · Difficulty: ${escapeHtml(p.avgDifficulty)}/5 · ${escapeHtml(p.numRatings)} ratings</div>
+        <div><a href="${escapeHtml(p.profileUrl)}" target="_blank" rel="noopener">View on RateMyProfessors →</a></div>
       ` : '<div>No RateMyProfessors match found at SCU.</div>'}
-      <div>${result.evalCount || 0} official course eval(s) &middot; ${result.syllabusCount} syllabus upload(s) on file</div>
+      ${d ? `
+        <div class="difficulty">Syllabus difficulty: <b>${escapeHtml(d.score)}/100</b> (from ${escapeHtml(d.count)} syllabus${d.count === 1 ? '' : 'es'})</div>
+        ${d.harder.length ? `<div class="meta">Harder: ${d.harder.map(escapeHtml).join(', ')}</div>` : ''}
+        ${d.easier.length ? `<div class="meta">Easier: ${d.easier.map(escapeHtml).join(', ')}</div>` : ''}
+      ` : ''}
+      <div>${escapeHtml(result.evalCount || 0)} official course eval(s) &middot; ${escapeHtml(result.syllabusCount)} syllabus upload(s) on file</div>
     `;
   });
 });
@@ -44,7 +51,7 @@ async function renderSchedule() {
   schedule.forEach((entry, idx) => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <span>${entry.courseCode}${entry.professor ? ' — ' + entry.professor : ''}</span>
+      <span>${escapeHtml(entry.courseCode)}${entry.professor ? ' — ' + escapeHtml(entry.professor) : ''}</span>
       <button data-idx="${idx}">✕</button>
     `;
     li.querySelector('button').addEventListener('click', async () => {
@@ -114,7 +121,7 @@ async function renderFriends() {
     const shared = friend.schedule.filter((s) => myCourses.has(s.courseCode.toUpperCase()));
     const li = document.createElement('li');
     li.innerHTML = `
-      <span>${friend.name}<br/><span class="meta">${shared.length} shared class${shared.length === 1 ? '' : 'es'}${shared.length ? ': ' + shared.map((s) => s.courseCode).join(', ') : ''}</span></span>
+      <span>${escapeHtml(friend.name)}<br/><span class="meta">${shared.length} shared class${shared.length === 1 ? '' : 'es'}${shared.length ? ': ' + shared.map((s) => escapeHtml(s.courseCode)).join(', ') : ''}</span></span>
       <button data-idx="${idx}">✕</button>
     `;
     li.querySelector('button').addEventListener('click', async () => {
@@ -133,8 +140,12 @@ document.getElementById('import-friend-form').addEventListener('submit', async (
   try {
     const payload = decodeShareCode(input.value);
     if (!payload.name || !Array.isArray(payload.schedule)) throw new Error('bad payload');
+    // Share codes come from other people; keep only the fields we render.
+    const schedule = payload.schedule
+      .filter((s) => s && typeof s.courseCode === 'string')
+      .map((s) => ({ courseCode: s.courseCode.slice(0, 40), professor: String(s.professor || '').slice(0, 80) }));
     const friends = await Storage.getFriends();
-    friends.push({ name: payload.name, schedule: payload.schedule, addedAt: Date.now() });
+    friends.push({ name: String(payload.name).slice(0, 60), schedule, addedAt: Date.now() });
     await Storage.setFriends(friends);
     input.value = '';
     renderFriends();

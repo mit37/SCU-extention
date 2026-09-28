@@ -3,7 +3,10 @@
   "private": true,
   "description": "Maintainer-only scripts for building the extension's bundled data (not shipped in the extension itself).",
   "scripts": {
-    "ingest-syllabi": "node ingest-syllabi.js"
+    "fetch-syllabi": "node fetch-syllabi.js",
+    "ingest-syllabi": "node ingest-syllabi.js downloads",
+    "build-baseline": "node fetch-syllabi.js && node ingest-syllabi.js downloads",
+    "test": "node --test \"test/*.test.js\""
   },
   "dependencies": {
     "pdfjs-dist": "3.11.174"

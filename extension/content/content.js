@@ -5,32 +5,49 @@
 // rendering) and "First Last" sitting near an "Instructor" label.
 const LASTFIRST_RE = /^[A-Z][A-Za-z'\-]+,\s?[A-Z][A-Za-z'\-.]+(?:\s[A-Z][A-Za-z'\-.]*)?$/;
 const FIRSTLAST_RE = /^[A-Z][A-Za-z'\-.]+(?:\s[A-Z][A-Za-z'\-.]*)?\s[A-Z][A-Za-z'\-]+$/;
-const COURSE_CODE_RE = /\b([A-Z]{2,5})\s?-?\s?(\d{1,3}[A-Z]?)\b/;
 const INSTRUCTOR_LABEL_RE = /instructor|faculty|taught\s?by/i;
+// Two capitalized words is also what most UI chrome looks like ("Course
+// Search", "Office Hours"), so reject anything containing these.
+const UI_WORDS = new Set([
+  'course', 'courses', 'search', 'instructor', 'instructors', 'section', 'class', 'schedule',
+  'office', 'hours', 'details', 'meeting', 'patterns', 'location', 'room', 'enrolled',
+  'open', 'closed', 'waitlist', 'fall', 'winter', 'spring', 'summer', 'quarter', 'santa',
+  'clara', 'university', 'faculty', 'staff', 'information', 'home', 'page', 'view', 'all',
+]);
 const processed = new WeakSet();
 const MAX_NODES_PER_SCAN = 400;
 
 function looksLikeName(text) {
   const t = text.trim();
   if (t.length < 4 || t.length > 40) return false;
+  if (t.split(/[\s,]+/).some((w) => UI_WORDS.has(w.toLowerCase()))) return false;
   return LASTFIRST_RE.test(t) || FIRSTLAST_RE.test(t);
 }
 
 function nearbyHasInstructorLabel(el) {
   let node = el;
-  for (let i = 0; i < 4 && node; i++) {
-    const row = node.closest ? node.closest('tr, [role="row"], li, .gwt-Label, div') : null;
-    if (row && INSTRUCTOR_LABEL_RE.test(row.getAttribute('aria-label') || '')) return true;
+  for (let i = 0; i < 3 && node; i++) {
+    if (INSTRUCTOR_LABEL_RE.test(node.getAttribute?.('aria-label') || '')) return true;
+    const text = node.textContent || '';
+    if (text.length <= 200 && INSTRUCTOR_LABEL_RE.test(text)) return true;
     node = node.parentElement;
   }
   return false;
 }
 
+// textContent glues adjacent cells together ("12 seatsCOEN 280"), which
+// destroys the word boundary the course-code pattern needs.
+function textWithCellBreaks(root) {
+  const parts = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) parts.push(node.nodeValue);
+  return parts.join(' ');
+}
+
 function findCourseCodeNear(el) {
-  const row = el.closest ? el.closest('tr, [role="row"], li') : null;
-  const text = row ? row.textContent : el.parentElement?.textContent || '';
-  const match = text.match(COURSE_CODE_RE);
-  return match ? `${match[1]} ${match[2]}` : null;
+  const row = el.closest('tr, [role="row"], li') || el.parentElement;
+  return row ? Detect.courseCode(textWithCellBreaks(row)) : null;
 }
 
 function tierForScore(score) {
@@ -50,22 +67,28 @@ function renderPanel(anchorEl, name, courseCode, result) {
   panel.className = 'scu-cc-panel';
 
   const p = result.professor;
+  const d = result.syllabusDifficulty;
   const scoreLine = result.score === null
     ? 'Not enough data yet'
     : `${result.score}% likeness (${result.confidence} confidence)`;
 
   panel.innerHTML = `
     <button class="scu-cc-close" aria-label="Close">×</button>
-    <h4>${name}</h4>
-    <div class="scu-cc-meta">${scoreLine}</div>
+    <h4>${escapeHtml(name)}</h4>
+    <div class="scu-cc-meta">${escapeHtml(scoreLine)}</div>
     ${p ? `
-      <div class="scu-cc-row"><span>RMP rating</span><b>${p.avgRating ?? '—'} / 5</b></div>
-      <div class="scu-cc-row"><span>Difficulty</span><b>${p.avgDifficulty ?? '—'} / 5</b></div>
-      <div class="scu-cc-row"><span># ratings</span><b>${p.numRatings ?? '—'}</b></div>
-      <div class="scu-cc-row"><span>Would take again</span><b>${p.wouldTakeAgainPercent >= 0 ? p.wouldTakeAgainPercent + '%' : '—'}</b></div>
-      <div style="margin-top:6px"><a href="${p.profileUrl}" target="_blank" rel="noopener">View on RateMyProfessors →</a></div>
+      <div class="scu-cc-row"><span>RMP rating</span><b>${escapeHtml(p.avgRating ?? '—')} / 5</b></div>
+      <div class="scu-cc-row"><span>RMP difficulty</span><b>${escapeHtml(p.avgDifficulty ?? '—')} / 5</b></div>
+      <div class="scu-cc-row"><span># ratings</span><b>${escapeHtml(p.numRatings ?? '—')}</b></div>
+      <div class="scu-cc-row"><span>Would take again</span><b>${p.wouldTakeAgainPercent >= 0 ? escapeHtml(p.wouldTakeAgainPercent) + '%' : '—'}</b></div>
+      <div style="margin-top:6px"><a href="${escapeHtml(p.profileUrl)}" target="_blank" rel="noopener">View on RateMyProfessors →</a></div>
     ` : `<div>No RateMyProfessors match found for this name at SCU.</div>`}
-    <div style="margin-top:4px; color:#666; font-size:11px;">${result.evalCount || 0} official course eval(s) · ${result.syllabusCount} syllabus upload(s) on file</div>
+    ${d ? `
+      <div class="scu-cc-row"><span>Syllabus difficulty</span><b>${escapeHtml(d.score)} / 100</b></div>
+      ${d.harder.length ? `<div class="scu-cc-why">Harder: ${d.harder.map(escapeHtml).join(', ')}</div>` : ''}
+      ${d.easier.length ? `<div class="scu-cc-why">Easier: ${d.easier.map(escapeHtml).join(', ')}</div>` : ''}
+    ` : ''}
+    <div style="margin-top:4px; color:#666; font-size:11px;">${escapeHtml(result.evalCount || 0)} official course eval(s) · ${escapeHtml(result.syllabusCount)} syllabus upload(s) on file</div>
     <div>
       <button data-action="upload">Upload syllabus</button>
       <button data-action="add-schedule">Add to my schedule</button>
@@ -139,10 +162,12 @@ function annotate(el, name) {
     const { result } = response;
     const tier = tierForScore(result.score);
     badge.dataset.tier = tier;
+    badge.dataset.confidence = result.confidence;
     badge.textContent = result.score !== null ? `${result.score}%` : '?';
-    badge.title = result.professor
+    const basis = result.professor
       ? `${result.professor.avgRating ?? '—'}/5 on RateMyProfessors (${result.professor.numRatings ?? 0} ratings)`
-      : 'No RateMyProfessor data yet — click for details';
+      : 'No RateMyProfessors data';
+    badge.title = `${basis} · ${result.confidence} confidence — click for details`;
     badge.addEventListener('click', (ev) => {
       ev.stopPropagation();
       const courseCode = findCourseCodeNear(el);

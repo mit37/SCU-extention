@@ -93,7 +93,7 @@ document.getElementById('bulk-syllabus-form').addEventListener('submit', async (
       continue;
     }
 
-    let professor = Detect.professor(text, file.name);
+    let professor = Detect.professor(text);
     if (!professor) {
       professor = (prompt(`Couldn't find an instructor name in "${file.name}". Whose syllabus is this? (leave blank to skip)`) || '').trim();
     }
