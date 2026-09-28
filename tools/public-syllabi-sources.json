@@ -1,0 +1,1495 @@
+{
+  "description": "Publicly hosted Santa Clara University syllabi: scu.edu faculty/department pages and instructor-owned course sites. Homework-sharing sites (Course Hero, Studocu, Quizlet, Chegg, ...) are excluded by policy.",
+  "discoveredOn": "2026-09-28",
+  "method": "Web search sweep across 12 angles (departments, hosts, terms, phrasings); every URL below was confirmed to appear verbatim in a real search result, and professor/term fields were kept only when the search evidence supports them. Metadata is a hint: ingest-syllabi.js prefers the downloaded document's own Instructor line.",
+  "excluded": [
+    {
+      "url": "https://www.scu.edu/engineering/academic-programs/department-of-electrical-engineering/introduction-to-machine-learning/",
+      "reason": "department program page, not a syllabus; instructor attribution unsupported by evidence"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma11homepage.html",
+      "reason": "course home page that links to syllabus PDFs already listed separately"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma12homepage.html",
+      "reason": "course home page that links to syllabus PDFs already listed separately"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma13homepage.html",
+      "reason": "course home page that links to syllabus PDFs already listed separately"
+    }
+  ],
+  "sources": [
+    {
+      "url": "http://screem.engr.scu.edu/mech143/course.html",
+      "professor": "Chris Kitts",
+      "courseCode": "MECH 143",
+      "courseTitle": "Introduction to Mechatronics",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "Mech143: Introduction to Mechatronics",
+      "foundByQuery": "site:engr.scu.edu MECH course syllabus"
+    },
+    {
+      "url": "http://syllabi.engr.scu.edu/AhmedEzzat/expired/COEN-380-Spring-2014-96790.xml",
+      "professor": "Ahmed Ezzat",
+      "courseCode": "COEN 380",
+      "courseTitle": "",
+      "term": "Spring 2014",
+      "format": "other",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "syllabi.engr.scu.edu pdf syllabus AhmedEzzat"
+    },
+    {
+      "url": "http://syllabi.engr.scu.edu/AhmedEzzat/expired/COEN-380-Spring-2017-52006-HIDE.xml",
+      "professor": "Ahmed Ezzat",
+      "courseCode": "COEN 380",
+      "courseTitle": "",
+      "term": "Spring 2017",
+      "format": "other",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:syllabi.engr.scu.edu xml"
+    },
+    {
+      "url": "http://syllabi.engr.scu.edu/yelziq/COEN-021-Fall-2016-42398.xml",
+      "professor": "",
+      "courseCode": "COEN 21",
+      "courseTitle": "",
+      "term": "Fall 2016",
+      "format": "other",
+      "evidenceTitle": "Index of /",
+      "foundByQuery": "site:syllabi.engr.scu.edu xml"
+    },
+    {
+      "url": "http://www.applmath.engr.scu.edu/~garrison/AMTH214-S06/Syllabus.html",
+      "professor": "Warren Garrison",
+      "courseCode": "AMTH 214",
+      "courseTitle": "Engineering Statistics I",
+      "term": "Spring 2006",
+      "format": "html",
+      "evidenceTitle": "Syllabus - AMTH 214",
+      "foundByQuery": "site:applmath.engr.scu.edu syllabus grading"
+    },
+    {
+      "url": "http://www.applmath.engr.scu.edu/~garrison/AMTH246-W14/Syllabus.html",
+      "professor": "Warren Garrison",
+      "courseCode": "AMTH 246",
+      "courseTitle": "",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:applmath.engr.scu.edu syllabus grading"
+    },
+    {
+      "url": "http://www.applmath.engr.scu.edu/~garrison/AMTH340-F04/Syllabus.html",
+      "professor": "Warren Garrison",
+      "courseCode": "AMTH 340",
+      "courseTitle": "Linear Programming I",
+      "term": "Fall 2004",
+      "format": "html",
+      "evidenceTitle": "Syllabus - AMTH 340",
+      "foundByQuery": "site:applmath.engr.scu.edu syllabus grading"
+    },
+    {
+      "url": "http://www.cse.scu.edu/~jnoll/283/",
+      "professor": "John Noll",
+      "courseCode": "COEN 283",
+      "courseTitle": "Operating Systems",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "COEN 283: Index",
+      "foundByQuery": "site:cse.scu.edu syllabus \"late\" policy homework exam"
+    },
+    {
+      "url": "http://www.cse.scu.edu/~jnoll/286/syllabus/grading.html",
+      "professor": "John Noll",
+      "courseCode": "COEN 286",
+      "courseTitle": "Software Quality Assurance and Testing",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "COEN 286: Grading Policy",
+      "foundByQuery": "site:cse.scu.edu/~jnoll"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci161-f25/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 161",
+      "courseTitle": "Theory of Automata and Formal Languages",
+      "term": "Fall 2025",
+      "format": "html",
+      "evidenceTitle": "csci 161: theory of automata and formal languages fall 2025 ...",
+      "foundByQuery": "\"CSCI 161\" OR \"Math 161\" theory of automata languages Smolarski syllabus quarter"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci161-s23/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 161",
+      "courseTitle": "Theory of Automata and Formal Languages",
+      "term": "Spring 2023",
+      "format": "html",
+      "evidenceTitle": "csci 161: theory of automata and formal languages spring ...",
+      "foundByQuery": "\"CSCI 161\" OR \"Math 161\" theory of automata languages Smolarski syllabus quarter"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci162-w25/syllabus.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 162",
+      "courseTitle": "Computational Complexity",
+      "term": "Winter 2025",
+      "format": "html",
+      "evidenceTitle": "csci 162: computational complexity winter 2025 syllabus",
+      "foundByQuery": "algoplexity ntran csci syllabus grading late policy exams"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci163-s26/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 163",
+      "courseTitle": "Theory of Algorithms",
+      "term": "Spring 2026",
+      "format": "html",
+      "evidenceTitle": "CSCI 163/COEN 179 - Theory of Algorithms",
+      "foundByQuery": "site:algoplexity.com ntran classes csci"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci164-s24/",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 164",
+      "courseTitle": "Advanced Theory of Algorithms",
+      "term": "Spring 2024",
+      "format": "html",
+      "evidenceTitle": "csci 164: advanced theory of algorithms spring 2024 syllabus",
+      "foundByQuery": "site:algoplexity.com ntran classes csci"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci60-w24/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 60",
+      "courseTitle": "Object-Oriented Programming",
+      "term": "Winter 2024",
+      "format": "html",
+      "evidenceTitle": "csci 60: object-oriented programming winter 2024 syllabus",
+      "foundByQuery": "site:algoplexity.com ntran classes csci"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csci60-w25/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "CSCI 60",
+      "courseTitle": "Object-Oriented Programming",
+      "term": "Winter 2025",
+      "format": "html",
+      "evidenceTitle": "CSCI 60 - OBJECT-ORIENTED PROGRAMMING",
+      "foundByQuery": "site:algoplexity.com ntran classes csci"
+    },
+    {
+      "url": "https://algoplexity.com/~ntran/classes/csen279-f25/index.html",
+      "professor": "Nicholas Q. Tran",
+      "courseCode": "AMTH 377",
+      "courseTitle": "Design & Analysis of Algorithms",
+      "term": "Fall 2025",
+      "format": "html",
+      "evidenceTitle": "AMTH 377/COEN 279 - DESIGN & ANALYSIS OF ALGORITHMS",
+      "foundByQuery": "algoplexity.com ~ntran classes syllabus.html"
+    },
+    {
+      "url": "https://law.scu.edu/site/gary-neustadter/debtors-and-creditors-rights/",
+      "professor": "Gary Neustadter",
+      "courseCode": "",
+      "courseTitle": "Debtors and Creditors Rights",
+      "term": "Fall 2006",
+      "format": "html",
+      "evidenceTitle": "Debtors and Creditors Rights - Santa Clara LawSanta Clara Law",
+      "foundByQuery": "site:law.scu.edu syllabus course pdf"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/cmurphy/courses/sctr015/syllabus.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "SCTR 15",
+      "courseTitle": "Texting God",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "TEXTING GOD - WebPages@SCU - Santa Clara University",
+      "foundByQuery": "site:webpages.scu.edu/ftp/cmurphy courses syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/cmurphy/courses/sctr026/syllabus.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "SCTR 26",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Instructor: Catherine Murphy SCTR 26.79658/WGST 46.79682 ...",
+      "foundByQuery": "site:webpages.scu.edu/ftp/cmurphy courses syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/cmurphy/courses/sctr032/syllabus.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "SCTR 32",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "sample syllabus scu.edu pdf"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/cmurphy/courses/sctr132/syllabus.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "SCTR 132",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Instructor: Catherine Murphy SCTR 132.26562 Office: Bannan ...",
+      "foundByQuery": "site:webpages.scu.edu/ftp/cmurphy courses syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/cmurphy/courses/sctr175/syllabus.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "SCTR 175",
+      "courseTitle": "Wealth, Work & the Gospel",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "WEALTH, WORK & THE GOSPEL Instructor ... - WebPages@SCU",
+      "foundByQuery": "site:webpages.scu.edu syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma11/syl16f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 11",
+      "courseTitle": "Analytic Geometry and Calculus I",
+      "term": "Fall 2016",
+      "format": "pdf",
+      "evidenceTitle": "MATH 11 ANALYTIC GEOMETRY AND CALCULUS I FALL QUARTER, 2016 Section 42836",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma11 SYL pdf \"MATH 11\""
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma11/syl23f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 11",
+      "courseTitle": "Analytic Geometry and Calculus I",
+      "term": "Fall 2023",
+      "format": "pdf",
+      "evidenceTitle": "https://webpages.scu.edu/ftp/dsmolarski/ma11homepage.html",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma11 SYL pdf \"MATH 11\""
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma11/syl25w.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 11",
+      "courseTitle": "Analytic Geometry and Calculus I",
+      "term": "Winter 2025",
+      "format": "pdf",
+      "evidenceTitle": "math 11 analytic geometry and calculus i winter quarter, 2025",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma11 SYL pdf \"MATH 11\""
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma12/SYL19f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 12",
+      "courseTitle": "Analytic Geometry and Calculus II",
+      "term": "Fall 2019",
+      "format": "pdf",
+      "evidenceTitle": "MATH 12 ANALYTIC GEOMETRY AND CALCULUS II FALL QUARTER, 2019 Section 90621",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma12 SYL \"MATH 12\" calculus quarter section"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma12/SYL23f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 12",
+      "courseTitle": "Analytic Geometry and Calculus II",
+      "term": "Fall 2023",
+      "format": "pdf",
+      "evidenceTitle": "https://webpages.scu.edu/ftp/dsmolarski/ma12homepage.html",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma12 SYL \"MATH 12\" calculus quarter section"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma12/SYL23w.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 12",
+      "courseTitle": "Analytic Geometry and Calculus II",
+      "term": "Winter 2023",
+      "format": "pdf",
+      "evidenceTitle": "math 12 analytic geometry and calculus ii winter quarter, ...",
+      "foundByQuery": "webpages.scu.edu dsmolarski ma12 SYL \"MATH 12\" calculus quarter section"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma13/SYL20w.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 13",
+      "courseTitle": "Analytic Geometry and Calculus III",
+      "term": "Winter 2020",
+      "format": "pdf",
+      "evidenceTitle": "MATH 13 ANALYTIC GEOMETRY AND CALCULUS III WINTER QUARTER, 2020 Section 94649",
+      "foundByQuery": "webpages.scu.edu syllabus math"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma13/SYL22f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 13",
+      "courseTitle": "Analytic Geometry and Calculus III",
+      "term": "Fall 2022",
+      "format": "pdf",
+      "evidenceTitle": "MATH 13 ANALYTIC GEOMETRY AND CALCULUS III FALL QUARTER, 2022 Section 50517",
+      "foundByQuery": "webpages.scu.edu syllabus math"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma13/SYL24f.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 13",
+      "courseTitle": "Analytic Geometry and Calculus III",
+      "term": "Fall 2024",
+      "format": "pdf",
+      "evidenceTitle": "math 13 analytic geometry and calculus iii fall quarter, 2024",
+      "foundByQuery": "\"MATH 13 ANALYTIC GEOMETRY AND CALCULUS III\" quarter section Smolarski"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/dsmolarski/ma13/SYL24w.pdf",
+      "professor": "Dennis C. Smolarski",
+      "courseCode": "MATH 13",
+      "courseTitle": "Analytic Geometry and Calculus III",
+      "term": "Winter 2024",
+      "format": "pdf",
+      "evidenceTitle": "math 13 analytic geometry and calculus iii winter quarter, 2024",
+      "foundByQuery": "\"MATH 13 ANALYTIC GEOMETRY AND CALCULUS III\" quarter section Smolarski"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/kwarner/12.84.syllabus.pdf",
+      "professor": "",
+      "courseCode": "",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:webpages.scu.edu syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/lgarber/courses/eng122s05syll.htm",
+      "professor": "",
+      "courseCode": "ENGL 122",
+      "courseTitle": "",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "English 122 - WebPages@SCU",
+      "foundByQuery": "site:webpages.scu.edu syllabus"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/msamorani/syllabi/MSIS%202607_Tan%20Tzu-Chin_Fall%202019.pdf",
+      "professor": "Tzu-Chin Tan",
+      "courseCode": "MSIS 2607",
+      "courseTitle": "",
+      "term": "Fall 2019",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:webpages.scu.edu/ftp/msamorani syllabi"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/msamorani/syllabi/MSIS%202621_Chavali%20Sreeram%20Kishore_Fall%202020.pdf",
+      "professor": "Sreeram Kishore Chavali",
+      "courseCode": "MSIS 2621",
+      "courseTitle": "Business Intelligence and Data Warehousing",
+      "term": "Fall 2020",
+      "format": "pdf",
+      "evidenceTitle": "MSIS 2621: Business Intelligence and Data Warehousing",
+      "foundByQuery": "site:webpages.scu.edu/ftp/msamorani syllabi"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/msamorani/syllabi/MSIS%202630_Lu%20Haibing_Spring%202019.pdf",
+      "professor": "Haibing Lu",
+      "courseCode": "MSIS 2630",
+      "courseTitle": "Web Programming",
+      "term": "Spring 2019",
+      "format": "pdf",
+      "evidenceTitle": "MSIS 2630 Web Programming Syllabi Course Description",
+      "foundByQuery": "site:webpages.scu.edu/ftp/msamorani syllabi"
+    },
+    {
+      "url": "https://webpages.scu.edu/ftp/msamorani/syllabi/MSIS%202634_Das%20Sanjiv%20R_Fall%202020.pdf",
+      "professor": "Sanjiv R. Das",
+      "courseCode": "MSIS 2634",
+      "courseTitle": "Natural Language Processing (NLP)",
+      "term": "Fall 2020",
+      "format": "pdf",
+      "evidenceTitle": "MSIS 2534/2634: NATURAL LANGUAGE PROCESSING (NLP) Syllabus, Fall 2020",
+      "foundByQuery": "site:webpages.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~atkinson/teaching/sp13/012/syllabus.pdf",
+      "professor": "Darren Atkinson",
+      "courseCode": "COEN 12",
+      "courseTitle": "Abstract Data Types and Data Structures",
+      "term": "Spring 2013",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:scu.edu syllabus filetype:pdf"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~atkinson/teaching/sp20/012/public/syllabus.pdf",
+      "professor": "Darren Atkinson",
+      "courseCode": "COEN 12",
+      "courseTitle": "Abstract Data Types and Data Structures",
+      "term": "Spring 2020",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:cse.scu.edu/~atkinson syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~atkinson/teaching/su08/247/syllabus.pdf",
+      "professor": "Darren Atkinson",
+      "courseCode": "AMTH 247",
+      "courseTitle": "Linear Algebra I & II",
+      "term": "Summer 2008",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:cse.scu.edu/~atkinson/teaching syllabus.pdf"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~atkinson/teaching/su13/247/syllabus.pdf",
+      "professor": "Darren Atkinson",
+      "courseCode": "AMTH 247",
+      "courseTitle": "Linear Algebra I & II",
+      "term": "Summer 2013",
+      "format": "pdf",
+      "evidenceTitle": "Applied Math 247 Linear Algebra I & II",
+      "foundByQuery": "site:cse.scu.edu/~atkinson/teaching syllabus.pdf"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~atkinson/teaching/wi16/175/",
+      "professor": "Darren Atkinson",
+      "courseCode": "COEN 175",
+      "courseTitle": "Formal Language Theory and Compiler Construction",
+      "term": "Winter 2016",
+      "format": "html",
+      "evidenceTitle": "Computer Engineering 175",
+      "foundByQuery": "site:cse.scu.edu/~atkinson syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~bdezfouli/spring-2018-coen-243-internet-of-things.html",
+      "professor": "Behnam Dezfouli",
+      "courseCode": "COEN 243",
+      "courseTitle": "Internet of Things",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "fall-2017-coen-243-internet-of-things",
+      "foundByQuery": "site:cse.scu.edu syllabus COEN 3 graduate \"Winter\" OR \"Spring\" OR \"Fall\" quarter policy"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/ai/Syllabus166.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 166",
+      "courseTitle": "Artificial Intelligence",
+      "term": "Spring 2007",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 166 Artificial Intelligence Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/architecture/Syllabus210.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "CSEN 210",
+      "courseTitle": "Computer Architecture",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus",
+      "foundByQuery": "Ming-Hwa Wang Syllabus \"Machine Learning\" OR \"Computer Networks\" OR \"Computer Architecture\" Department of Computer Engineering Santa Clara"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/bigdata/Syllabus242.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 242",
+      "courseTitle": "Big Data",
+      "term": "Spring 2022",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 242 Big Data Department of Computer Engineer",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/capstone/Syllabus690.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 485",
+      "courseTitle": "Software Engineering Capstone Projects",
+      "term": "Spring 2020",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN485 & 497 Software Engineering Capstone Projects and",
+      "foundByQuery": "site:cse.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/compiler/Syllabus259.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 259",
+      "courseTitle": "Compilers",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 259 Compilers Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/database/Syllabus280.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 280",
+      "courseTitle": "Database Systems",
+      "term": "Fall 2020",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 280 Database Systems Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/deep/Syllabus342.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 342",
+      "courseTitle": "Deep Learning",
+      "term": "Spring 2022",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 342 Deep Learning Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/discrete/Syllabus501.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 296",
+      "courseTitle": "Discrete Structure",
+      "term": "Fall 2019",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 296 Discrete Structure Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/distributed/Syllabus502.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 317",
+      "courseTitle": "Distributed System",
+      "term": "Fall 2017",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 317 Distributed System Department of Computer Engineering",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/game/Syllabus396.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 396",
+      "courseTitle": "Interactive Multimedia and Game Programming",
+      "term": "Winter 2006",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus COEN 396 Interactive Multimedia and Game Programming",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/learning/Syllabus633.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "CSEN 240",
+      "courseTitle": "Machine Learning",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "Ming-Hwa Wang Syllabus \"Machine Learning\" OR \"Computer Networks\" OR \"Computer Architecture\" Department of Computer Engineering Santa Clara"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~m1wang/os/Syllabus283.pdf",
+      "professor": "Ming-Hwa Wang",
+      "courseCode": "COEN 283",
+      "courseTitle": "Operating Systems",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus",
+      "foundByQuery": "site:cse.scu.edu/~m1wang syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~rdaniels/html/courses/Coen396/c396syll.html",
+      "professor": "Ron Danielson",
+      "courseCode": "COEN 396",
+      "courseTitle": "",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "COEN 396",
+      "foundByQuery": "site:cse.scu.edu/~rdaniels Coen171 syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~rdaniels/html/courses/Coen7/syllabus.htm",
+      "professor": "",
+      "courseCode": "COEN 7",
+      "courseTitle": "",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:cse.scu.edu/~rdaniels Coen171 syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~sfigueir/10/10.html",
+      "professor": "Silvia Figueira",
+      "courseCode": "COEN 10",
+      "courseTitle": "Intro to Programming",
+      "term": "Fall 2016",
+      "format": "html",
+      "evidenceTitle": "Intro to Programming - COEN 10 - Fall 2016",
+      "foundByQuery": "site:cse.scu.edu COEN 12 syllabus data structures"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~sfigueir/11/11.html",
+      "professor": "Silvia Figueira",
+      "courseCode": "COEN 11",
+      "courseTitle": "Advanced Programming",
+      "term": "Fall 2018",
+      "format": "html",
+      "evidenceTitle": "Advanced Programming - COEN 11 - Fall 2018",
+      "foundByQuery": "site:cse.scu.edu COEN 12 syllabus data structures"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~sfigueir/146/146.html",
+      "professor": "Silvia Figueira",
+      "courseCode": "COEN 146",
+      "courseTitle": "Computer Networks",
+      "term": "Winter 2019",
+      "format": "html",
+      "evidenceTitle": "Computer Networks - COEN 146 - Winter 2019",
+      "foundByQuery": "site:cse.scu.edu syllabus COEN 146 OR COEN 177 OR COEN 179 OR COEN 174"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~tschwarz/COEN196_13/syllabus.html",
+      "professor": "Thomas Schwarz",
+      "courseCode": "COEN 196",
+      "courseTitle": "AI for Gaming",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "AI for Gaming",
+      "foundByQuery": "site:cse.scu.edu/~tschwarz syllabus"
+    },
+    {
+      "url": "https://www.cse.scu.edu/~yliu1/coen140/SyllabusCOEN140Spring2021_v1.pdf",
+      "professor": "Ying Liu",
+      "courseCode": "COEN 140",
+      "courseTitle": "Machine Learning and Data Mining",
+      "term": "Spring 2021",
+      "format": "pdf",
+      "evidenceTitle": "COEN140 Machine Learning and Data Mining (Spring 2021) Course Syllabus",
+      "foundByQuery": "site:cse.scu.edu \"Syllabus\" COEN"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ECEN100/Syllabus%20ECEN%20100.pdf",
+      "professor": "Aleksandar I. Zecevic",
+      "courseCode": "ECEN 100",
+      "courseTitle": "Electric Circuits II",
+      "term": "Winter 2024",
+      "format": "pdf",
+      "evidenceTitle": "Santa Clara University Department of Electrical Engineering",
+      "foundByQuery": "ECEN syllabus Santa Clara University"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ECEN112/Syllabus%20ECEN%20112.pdf",
+      "professor": "Aleksandar Zecevic",
+      "courseCode": "ECEN 112",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:engr.scu.edu/~azecevic ECEN 115 syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ECEN160/Syllabus%20ECEN160.pdf",
+      "professor": "Aleksandar Zecevic",
+      "courseCode": "ECEN 160",
+      "courseTitle": "Chaos Theory, Metamathematics",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Chaos Theory, Metamathem",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ECEN161/Syllabus%20ECEN%20161.pdf",
+      "professor": "Aleksandar I. Zecevic",
+      "courseCode": "ECEN 161",
+      "courseTitle": "Information, Quantum Computing and Complexity",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "ECEN 161: Information, Quantum Computing and Complexity",
+      "foundByQuery": "site:engr.scu.edu/~azecevic ECEN 115 syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ECEN50/Syllabus%20ECEN%2050.pdf",
+      "professor": "Aleksandar I. Zecevic",
+      "courseCode": "ECEN 50",
+      "courseTitle": "Electric Circuits I",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus ECEN 50.pdf - Santa Clara University",
+      "foundByQuery": "site:engr.scu.edu/~azecevic syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ELEN100/Syllabus%20ELEN%20100.pdf",
+      "professor": "Aleksandar Zecevic",
+      "courseCode": "ELEN 100",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:engr.scu.edu ELEN syllabus pdf"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ELEN118/Syllabus%20ELEN%20118.pdf",
+      "professor": "Aleksandar Zecevic",
+      "courseCode": "ELEN 118",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:engr.scu.edu/~azecevic syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ENGR143H/Syllabus%20ENGR%20143H.pdf",
+      "professor": "Aleksandar Zecevic",
+      "courseCode": "ENGR 143H",
+      "courseTitle": "Science, Religion and the Limits of Knowledge",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Santa Clara University Department of Electrical Engineering",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~azecevic/files/ENGR343/Syllabus%20ENGR%20343.pdf",
+      "professor": "Aleksandar I. Zecevic",
+      "courseCode": "ENGR 343",
+      "courseTitle": "Science, Religion and the Limits of Knowledge",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "ENGR 343 Science, Religion and the Limits of Knowledge",
+      "foundByQuery": "site:engr.scu.edu/~azecevic syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng139_groundwater/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 139",
+      "courseTitle": "Groundwater",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 139 Home Page / Syllabus",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng140_watres/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 140",
+      "courseTitle": "Water Resources",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 140 Home Page / Syllabus",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng142_waterdesign/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 142",
+      "courseTitle": "Water Design",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 142 Home Page / Syllabus",
+      "foundByQuery": "syllabi.engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng160_gis/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 160",
+      "courseTitle": "GIS",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 160 Home Page / Syllabus",
+      "foundByQuery": "site:engr.scu.edu/~emaurer classes ceng syllabus grading"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng161_sustainability/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 161",
+      "courseTitle": "Sustainability",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 161 Home Page / Syllabus",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng162_compwr/syllabus.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 162",
+      "courseTitle": "",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "SCU CENG 162 Home Page / Syllabus",
+      "foundByQuery": "syllabi.engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng41_statics/index.htm",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 41",
+      "courseTitle": "Statics",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "home page and syllabus",
+      "foundByQuery": "site:engr.scu.edu syllabus"
+    },
+    {
+      "url": "https://www.engr.scu.edu/~emaurer/classes/ceng41_statics/policies_misc.shtml",
+      "professor": "Ed Maurer",
+      "courseCode": "CENG 41",
+      "courseTitle": "Statics",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "Class policies and miscellaneous notes",
+      "foundByQuery": "site:engr.scu.edu/~emaurer classes ceng syllabus grading"
+    },
+    {
+      "url": "https://www.robertjamesbruce.com/coen317_syllabus.html",
+      "professor": "Robert James Bruce",
+      "courseCode": "COEN 317",
+      "courseTitle": "Distributed Systems",
+      "term": "",
+      "format": "html",
+      "evidenceTitle": "COEN-317 syllabus - Distributed Systems",
+      "foundByQuery": "Ron Danielson COEN syllabus Santa Clara University grading"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/documents/Chem-31-Lab-Syllabus----Summer-2023.pdf",
+      "professor": "Ruhland",
+      "courseCode": "CHEM 31",
+      "courseTitle": "Organic Chemistry I Lab",
+      "term": "Summer 2023",
+      "format": "pdf",
+      "evidenceTitle": "Chem 31 Lab Syllabus Summer quarter, 2023",
+      "foundByQuery": "Santa Clara University summer session syllabus chemistry-amp-biochemistry summer-docs"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/documents/Chem-33-Lab-Syllabus-----Summer-2023.pdf",
+      "professor": "Ruhland",
+      "courseCode": "CHEM 33",
+      "courseTitle": "Organic Chemistry III Lab",
+      "term": "Summer 2023",
+      "format": "pdf",
+      "evidenceTitle": "Chem 33 Laboratory Syllabus Summer 2023 SANTA CLARA UNIVERSITY SUMMER TERM 2023",
+      "foundByQuery": "Santa Clara University summer session syllabus chemistry-amp-biochemistry summer-docs"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/documents/LSB-Chem-11-Syllabus-F10.pdf",
+      "professor": "",
+      "courseCode": "CHEM 11",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus",
+      "foundByQuery": "site:scu.edu/media chemistry-amp-biochemistry documents syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Chem_33_Syllabus_sum19.pdf",
+      "professor": "",
+      "courseCode": "CHEM 33",
+      "courseTitle": "Organic Chemistry III",
+      "term": "Summer 2019",
+      "format": "pdf",
+      "evidenceTitle": "Santa Clara University Summer Term 2019 Organic Chemistry III Chemistry 33",
+      "foundByQuery": "Santa Clara University summer session syllabus chemistry-amp-biochemistry summer-docs"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Chem-11-Lecture-Syllabus-Summer-2022.pdf",
+      "professor": "",
+      "courseCode": "CHEM 11",
+      "courseTitle": "General Chemistry",
+      "term": "Summer 2022",
+      "format": "pdf",
+      "evidenceTitle": "Chemistry 11 Syllabus Santa Clara University Summer 2022 Section: 46121",
+      "foundByQuery": "Santa Clara University summer session syllabus chemistry-amp-biochemistry summer-docs"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Chem-31-Lab-Syllabus----Summer-2023.pdf",
+      "professor": "Ruhland",
+      "courseCode": "CHEM 31",
+      "courseTitle": "Organic Chemistry I Lab",
+      "term": "Summer 2023",
+      "format": "pdf",
+      "evidenceTitle": "Chem 31 Lab Syllabus Summer quarter, 2023 SANTA CLARA UNIVERSITY",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Chem-32-Lab-Syllabus-----Summer-2023.pdf",
+      "professor": "Ruhland",
+      "courseCode": "CHEM 32",
+      "courseTitle": "Organic Chemistry II Lab",
+      "term": "Summer 2023",
+      "format": "pdf",
+      "evidenceTitle": "Chem 32 Laboratory Syllabus Summer 2023 SANTA CLARA UNIVERSITY SUMMER TERM 2023",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Chem32SyllabusSum2019.pdf",
+      "professor": "Ruhland",
+      "courseCode": "CHEM 32",
+      "courseTitle": "Organic Chemistry II",
+      "term": "Summer 2019",
+      "format": "pdf",
+      "evidenceTitle": "SANTA CLARA UNIVERSITY SUMMER TERM 2019 ORGANIC CHEMISTRY II",
+      "foundByQuery": "Santa Clara University summer session syllabus chemistry-amp-biochemistry summer-docs"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry-amp-biochemistry/summer-docs/Summer-2022-Chemistry-12-Lecture-Syllabus.pdf",
+      "professor": "",
+      "courseCode": "CHEM 12",
+      "courseTitle": "General Chemistry II",
+      "term": "Summer 2022",
+      "format": "pdf",
+      "evidenceTitle": "Santa Clara University Department of Chemistry and Biochemistry",
+      "foundByQuery": "\"syllabus\" \"Santa Clara University\" pdf quarter"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/chemistry/summer-docs/Summer-2022-Chemistry-12-Lecture-Syllabus.pdf",
+      "professor": "",
+      "courseCode": "CHEM 12",
+      "courseTitle": "",
+      "term": "Summer 2022",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:scu.edu/media chemistry-amp-biochemistry documents syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/Barros-GPPM-PMIN-201-Syllabus-Spring-2025.pdf",
+      "professor": "Barros",
+      "courseCode": "PMIN 201",
+      "courseTitle": "",
+      "term": "Spring 2025",
+      "format": "pdf",
+      "evidenceTitle": "Barros-GPPM-PMIN-201-Syllabus-Spring-2025.pdf",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/Barros-GPPM-PMIN-241-Women-in-the-Church-Syllabus-Spring-2025.pdf",
+      "professor": "Barros",
+      "courseCode": "PMIN 241",
+      "courseTitle": "Women in the Church",
+      "term": "Spring 2025",
+      "format": "pdf",
+      "evidenceTitle": "** Please note: This is a working draft of the syllabus;",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/Canon-Law-GPPM-Syllabus-Spring-2026.pdf",
+      "professor": "",
+      "courseCode": "PMIN 231",
+      "courseTitle": "Canon Law for Pastoral Ministers",
+      "term": "Spring 2026",
+      "format": "pdf",
+      "evidenceTitle": "1 PMIN 231 Canon Law for Pastoral Ministers Term: Spring 2026 Credits: 4",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/CATE-222-Catechesis-&-Culture---Fall-2024--Fr.-James-Okafor.pdf",
+      "professor": "James Okafor",
+      "courseCode": "CATE 222",
+      "courseTitle": "Catechesis & Culture",
+      "term": "Fall 2024",
+      "format": "pdf",
+      "evidenceTitle": "CATE-222-Catechesis-&-Culture---Fall-2024--Fr.-James- ...",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi SPIR OR CATE OR \"Tentative Syllabus\""
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/CATE-224-Syllabus-Summer-2023-Okafor.pdf",
+      "professor": "Okafor",
+      "courseCode": "CATE 224",
+      "courseTitle": "Transformative Catechesis: Missionary Discipleship",
+      "term": "Summer 2023",
+      "format": "pdf",
+      "evidenceTitle": "Transformative Catechesis: Missionary Discipleship CATE ...",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi Summer 2024 syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PLIT-221---Summer-2026---Syllabus---Schlesinger---Draft.pdf",
+      "professor": "Schlesinger",
+      "courseCode": "PLIT 221",
+      "courseTitle": "The Eucharist",
+      "term": "Summer 2026",
+      "format": "pdf",
+      "evidenceTitle": "PLIT 221 Syllabus Summer 2026",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-201-1-Theological-Foundations-for-Ministry-Fall-2024-Monday-IP.pdf",
+      "professor": "",
+      "courseCode": "PMIN 201",
+      "courseTitle": "Theological Foundations for Ministry",
+      "term": "Fall 2024",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 201-1: Theological Foundations for Ministry",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN 202 OR PMIN 204 OR PMIN 205 OR PMIN 206 OR PMIN 207 OR PMIN 210"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-201-Syllabus-W22-LA-40352-Morris.pdf",
+      "professor": "Morris",
+      "courseCode": "PMIN 201",
+      "courseTitle": "",
+      "term": "Winter 2022",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-203---Christology---Syllabus---Summer-2024---Schlesinger---Draft-3.1.pdf",
+      "professor": "Eugene R. Schlesinger",
+      "courseCode": "PMIN 203",
+      "courseTitle": "Christology",
+      "term": "Summer 2024",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 203: Christology Summer 2024 Eugene R. Schlesinger, Ph.D.",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-203---Christology---Syllabus---Winter-2026---Schlesinger---Draft-10_14.pdf",
+      "professor": "Eugene R. Schlesinger",
+      "courseCode": "PMIN 203",
+      "courseTitle": "Christology",
+      "term": "Winter 2026",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 203: Christology Winter 2026 Eugene R. Schlesinger, Ph.D.",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-203-Syllabus-Spring-24-Lassalle-Klein.pdf",
+      "professor": "Lassalle-Klein",
+      "courseCode": "PMIN 203",
+      "courseTitle": "Christology",
+      "term": "Spring 2024",
+      "format": "pdf",
+      "evidenceTitle": "Christology",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-205---Winter-2024---DRAFT---Raby.pdf",
+      "professor": "Raby",
+      "courseCode": "PMIN 205",
+      "courseTitle": "Ecclesiology",
+      "term": "Winter 2024",
+      "format": "pdf",
+      "evidenceTitle": "October 2023 Subject to change 1 PMIN 205: Ecclesiology ...",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN 202 OR PMIN 204 OR PMIN 205 OR PMIN 206 OR PMIN 207 OR PMIN 210"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-207-Intro-HB.pdf",
+      "professor": "",
+      "courseCode": "PMIN 207",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 207 Intro HB",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN 202 OR PMIN 204 OR PMIN 205 OR PMIN 206 OR PMIN 207 OR PMIN 210"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-208-Fall-2025-The-Hebrew-Bible-and-Social-Justice----Wednesday-Section.pdf",
+      "professor": "J. David Pleins",
+      "courseCode": "PMIN 208",
+      "courseTitle": "The Hebrew Bible and Social Justice",
+      "term": "Fall 2025",
+      "format": "pdf",
+      "evidenceTitle": "BASIC COURSE INFO Instructor: J. David Pleins, Ph.D. (call me “David”)",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi Fall 2025 OR Fall 2024 OR Winter 2025 syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-209-Syllabus-Murphy-S25.pdf",
+      "professor": "Catherine Murphy",
+      "courseCode": "PMIN 209",
+      "courseTitle": "",
+      "term": "Spring 2025",
+      "format": "pdf",
+      "evidenceTitle": "Catherine Murphy Class Number: PMIN",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-211--Hayes-Mota-Syllabus-W26-%5BShort%5D.pdf",
+      "professor": "Hayes-Mota",
+      "courseCode": "PMIN 211",
+      "courseTitle": "Contemporary Issues in Moral Theology",
+      "term": "Winter 2026",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 211: Contemporary Issues in Moral Theology Winter 2026 Instructor:",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-214-Winter-2024-Syllabus---Schlesinger---DRAFT.pdf",
+      "professor": "Schlesinger",
+      "courseCode": "PMIN 214",
+      "courseTitle": "Sacramental Theology",
+      "term": "Winter 2024",
+      "format": "pdf",
+      "evidenceTitle": "Sacramental Theology Syllabus for Winter Quarter 2024",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi PMIN syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/PMIN-280-Summer-2025-Syllabus.pdf",
+      "professor": "",
+      "courseCode": "PMIN 280",
+      "courseTitle": "",
+      "term": "Summer 2025",
+      "format": "pdf",
+      "evidenceTitle": "PMIN 280 Summer 2025 Syllabus",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/RJUS-221-Syllabus-Winter-2026-Draft-bede.pdf",
+      "professor": "Bede J Healey",
+      "courseCode": "RJUS 221",
+      "courseTitle": "Chaplaincy",
+      "term": "Winter 2026",
+      "format": "pdf",
+      "evidenceTitle": "1 Course Number RJUS 221 Course Name: Chaplaincy Term: Winter 2026 Credits: 4",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/SPIR-221-Syllabus---W-2023-Tentative-Dohar.pdf",
+      "professor": "Dohar",
+      "courseCode": "SPIR 221",
+      "courseTitle": "History of Western Christian Spirituality",
+      "term": "Winter 2023",
+      "format": "pdf",
+      "evidenceTitle": "HISTORY OF WESTERN CHRISTIAN SPIRITUALITY",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi Summer 2024 syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/SPIR-222---Spring--2023---Scholla.pdf",
+      "professor": "Scholla",
+      "courseCode": "SPIR 222",
+      "courseTitle": "Ignatian Spirituality and Discernment",
+      "term": "Spring 2023",
+      "format": "pdf",
+      "evidenceTitle": "spir 222-01 (60565): ignatian spirituality and discernment",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi SPIR OR CATE OR \"Tentative Syllabus\""
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/Syllabus-RJS-221-McKay-Spring-2025.docx.pdf",
+      "professor": "Robert McKay",
+      "courseCode": "RJUS 221",
+      "courseTitle": "Chaplaincy",
+      "term": "Spring 2025",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus (RJS 221) McKay Spring 2025.docx",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/Tentative-Syllabus-SPIR-290.pdf",
+      "professor": "",
+      "courseCode": "SPIR 290",
+      "courseTitle": "Contemporary Issues in Spirituality",
+      "term": "Spring 2025",
+      "format": "pdf",
+      "evidenceTitle": "Contemporary Issues in Spirituality Spring Quarter 2025",
+      "foundByQuery": "site:scu.edu pastoral-ministries syllabi Summer 2024 syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/THEO-244-Syllabus-Draft-6_18.pdf",
+      "professor": "Eugene R. Schlesinger",
+      "courseCode": "THEO 244",
+      "courseTitle": "Vatican II",
+      "term": "Fall 2025",
+      "format": "pdf",
+      "evidenceTitle": "THEO 244: Vatican II Fall 2025 Eugene R. Schlesinger, Ph.D. Office: Kenna 300B",
+      "foundByQuery": "site:scu.edu/media \"tentative syllabus\" OR \"draft syllabus\" OR \"syllabus subject to change\""
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/pastoral-ministries/syllabi/THEO-252-Syllabus-Winter-2026.pdf",
+      "professor": "",
+      "courseCode": "THEO 252",
+      "courseTitle": "Liberation Theologies in the Americas",
+      "term": "Winter 2026",
+      "format": "pdf",
+      "evidenceTitle": "--DRAFT -- Liberation Theologies in the Americas THEO 252",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/psychology/documents/P115ELSJ.syllabus-Fall.2025.pdf",
+      "professor": "",
+      "courseCode": "PSYC 115",
+      "courseTitle": "Psychopathology",
+      "term": "Fall 2025",
+      "format": "pdf",
+      "evidenceTitle": "1 SANTA CLARA UNIVERSITY Psychology Department Fall 2025",
+      "foundByQuery": "site:scu.edu/media/college-of-arts-and-sciences syllabus pdf"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/psychology/documents/P116.Fall.2025.AdvTopics.Psychopath.Syllabus.pdf",
+      "professor": "",
+      "courseCode": "PSYC 116",
+      "courseTitle": "Advanced Topics in Psychopathology",
+      "term": "Fall 2025",
+      "format": "pdf",
+      "evidenceTitle": "1 SANTA CLARA UNIVERSITY Psychology Department Fall 2025",
+      "foundByQuery": "site:scu.edu psychology documents syllabus Fall Winter Spring"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/psychology/documents/P193.syllabus.Spring.2026.docx",
+      "professor": "",
+      "courseCode": "PSYC 193",
+      "courseTitle": "",
+      "term": "Spring 2026",
+      "format": "other",
+      "evidenceTitle": "Docs",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/college-of-arts-and-sciences/psychology/documents/P2.syllabus.Winter.2026.pdf",
+      "professor": "Thomas G. Plante",
+      "courseCode": "PSYC 2",
+      "courseTitle": "General Psychology II",
+      "term": "Winter 2026",
+      "format": "pdf",
+      "evidenceTitle": "1 SANTA CLARA UNIVERSITY Psychology Department Winter 2026",
+      "foundByQuery": "site:scu.edu psychology documents syllabus Fall Winter Spring"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/counseling-psychology-syllabi/CPSY-276.pdf",
+      "professor": "",
+      "courseCode": "CPSY 276",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "CPSY 276",
+      "foundByQuery": "site:scu.edu counseling-psychology-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/counseling-psychology-syllabi/CPSY-288.pdf",
+      "professor": "",
+      "courseCode": "CPSY 288",
+      "courseTitle": "Existential Psychotherapy",
+      "term": "Spring 2014",
+      "format": "pdf",
+      "evidenceTitle": "CPSY 288 Existential Psychotherapy Spring, 2014",
+      "foundByQuery": "site:scu.edu/media CPSY syllabus counseling psychology course"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/counseling-psychology-syllabi/CPSY-318.pdf",
+      "professor": "",
+      "courseCode": "CPSY 318",
+      "courseTitle": "Clinical Assessment I",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "CPSY 318: Clinical Assessment I",
+      "foundByQuery": "site:scu.edu/media CPSY syllabus counseling psychology course"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/counseling-psychology-syllabi/CPSY-319.pdf",
+      "professor": "",
+      "courseCode": "CPSY 319",
+      "courseTitle": "Clinical Assessment II",
+      "term": "Spring 2014",
+      "format": "pdf",
+      "evidenceTitle": "CPSY 319: Clinical Assessment II Spring 2014",
+      "foundByQuery": "site:scu.edu counseling-psychology-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/counseling-psychology-syllabi/CPSY300-syllabus-Summer-2020_Brock.pdf",
+      "professor": "Brock",
+      "courseCode": "CPSY 300",
+      "courseTitle": "Career Development and Life Planning",
+      "term": "Summer 2020",
+      "format": "pdf",
+      "evidenceTitle": "Career Development and Life Planning (CPSY300) ...",
+      "foundByQuery": "site:scu.edu/media CPSY syllabus counseling psychology course"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/cpsy-tentative-schedules/CPSY-243-Syllabus.pdf",
+      "professor": "",
+      "courseCode": "CPSY 243",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Counseling Psychology 243 (11742) Delinquent, At-Risk, ...",
+      "foundByQuery": "site:scu.edu/media CPSY syllabus counseling psychology course"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/BOWEN_EDUC-250_275-REDS_SUM-2020.pdf",
+      "professor": "Bowen",
+      "courseCode": "EDUC 250",
+      "courseTitle": "Ethics, Diversity, Reflection: Introduction to TK-12 Teaching",
+      "term": "Summer 2020",
+      "format": "pdf",
+      "evidenceTitle": "Ethics, Diversity, Reflection: Introduction to TK-12 Teaching ...",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-230A-Syllabus-2019.pdf",
+      "professor": "M. Johnson",
+      "courseCode": "EDUC 230A",
+      "courseTitle": "",
+      "term": "Summer 2019",
+      "format": "pdf",
+      "evidenceTitle": "M. Johnson EDUC 230a Summer Quarter Syllabus",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-230c.pdf",
+      "professor": "",
+      "courseCode": "EDUC 230C",
+      "courseTitle": "Ethical Reflective Practicum III",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 230c (6 unit) Ethical Reflective Practicum III Winter ...",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-231i.pdf",
+      "professor": "",
+      "courseCode": "EDUC 231I",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Scu",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-251:276---Technology-for-Education-Syllabus_FINAL-2025.pdf",
+      "professor": "",
+      "courseCode": "EDUC 251",
+      "courseTitle": "Technology for Teachers",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 251/276 - Technology for Teachers",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-252:277---Social-Foundations-of-Education_FINAL-2025.pdf",
+      "professor": "",
+      "courseCode": "EDUC 252",
+      "courseTitle": "Social Foundations of Education",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC-252:277---Social-Foundations-of-Education_FINAL-2025. ...",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-253:278-Development-&-Learning_FINAL.pdf",
+      "professor": "",
+      "courseCode": "EDUC 253",
+      "courseTitle": "Development & Learning",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 253 (MS) /278 (SS) - Development & Learning",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-258:283---Developing-Positive-Classroom-Cultures_FINAL.pdf",
+      "professor": "",
+      "courseCode": "EDUC 258",
+      "courseTitle": "Developing Positive Classroom Cultures",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 258/283 - Developing Positive Classroom Cultures",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-262---Elementary-Language-Arts-Methods_FINAL.pdf",
+      "professor": "",
+      "courseCode": "EDUC 262",
+      "courseTitle": "Elementary Language Arts Methods",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 262 - Elementary Language Arts Methods_FINAL",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-283-Classroom-Management-1.pdf",
+      "professor": "",
+      "courseCode": "EDUC 283",
+      "courseTitle": "Classroom Management",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC-283-Classroom-Management-1. ...",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC-287A---Secondary-Math-Methods-I_FINAL-2025.pdf",
+      "professor": "",
+      "courseCode": "EDUC 287A",
+      "courseTitle": "Secondary Math Methods I",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 287A Secondary Math Methods I_FINAL 2025.docx",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/EDUC294B-2019.pdf",
+      "professor": "",
+      "courseCode": "EDUC 294B",
+      "courseTitle": "",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Department of Education MATTC EDUC294B (3 units) ...",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/ecp-media/pdfs/teacher-education-syllabi/Syllabus-EDUC-296-Fall-2017-Signature-Assignment-Aligned.pdf",
+      "professor": "",
+      "courseCode": "EDUC 296",
+      "courseTitle": "",
+      "term": "Fall 2017",
+      "format": "pdf",
+      "evidenceTitle": "1 Department of Education MATTC Program EDUC 296 (2 ...",
+      "foundByQuery": "site:scu.edu teacher-education-syllabi EDUC syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media-/Syllabus-EDU-259B-Winter_-2024_final_docx.-1.pdf",
+      "professor": "",
+      "courseCode": "EDUC 259B",
+      "courseTitle": "",
+      "term": "Winter 2024",
+      "format": "pdf",
+      "evidenceTitle": "Syllabus EDU 259B Winter_ 2024_final_docx. (1)",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/ecp-media/pdfs/teacher-education-syllabi/EDUC-276-Syllabus-Fall-2017.pdf",
+      "professor": "",
+      "courseCode": "EDUC 276",
+      "courseTitle": "Technology for TK-12 Teachers",
+      "term": "Fall 2017",
+      "format": "pdf",
+      "evidenceTitle": "EDUC-276-Syllabus-Fall-2017.pdf",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/ecp-media/pdfs/teacher-education-syllabi/EDUC-277-Soc-Foundations-Redesign-1-sa.pdf",
+      "professor": "",
+      "courseCode": "EDUC 277",
+      "courseTitle": "Social Foundations",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "Department of Education MATTC Program",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/ecp-media/pdfs/teacher-education-syllabi/EDUC-287A---Secondary-Math-Methods-I_FINAL-2025.pdf",
+      "professor": "",
+      "courseCode": "EDUC 287A",
+      "courseTitle": "Secondary Math Methods I",
+      "term": "Fall 2024",
+      "format": "pdf",
+      "evidenceTitle": "​EDUC 287A - Secondary Math Methods I​ ​Term:​​Fall 2024​ ​Credits​: 3 units​",
+      "foundByQuery": "site:scu.edu ecp-media- teacher-education-syllabi"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/EDUC-231a_-Ethical-Reflective-Practicum--Syllabus.docx-sa.pdf",
+      "professor": "",
+      "courseCode": "EDUC 231A",
+      "courseTitle": "Ethical Reflective Practicum I",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC-231a_-Ethical-Reflective-Practicum--Syllabus.docx- ...",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/EDUC-231a_-Ethical-Reflective-Practicum--Syllabus.docx.pdf",
+      "professor": "",
+      "courseCode": "EDUC 231A",
+      "courseTitle": "Ethical Reflective Practicum I SPED",
+      "term": "",
+      "format": "pdf",
+      "evidenceTitle": "EDUC 231a_ Ethical Reflective Practicum I SPED Syllabus.docx",
+      "foundByQuery": "site:scu.edu/media syllabus"
+    },
+    {
+      "url": "https://www.scu.edu/media/ecp-media/Kim_EDUC-288A_Fall-2023-sa.pdf",
+      "professor": "Kim",
+      "courseCode": "EDUC 288A",
+      "courseTitle": "",
+      "term": "Fall 2023",
+      "format": "pdf",
+      "evidenceTitle": "0. Syllabus. EDUC 288A 2023",
+      "foundByQuery": "site:scu.edu/media/ecp-media syllabus"
+    }
+  ]
+}

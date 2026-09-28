@@ -43,18 +43,26 @@ function fileNameFor(url, kind) {
   try { decoded = decodeURIComponent(last); } catch { decoded = last; }
   const base = decoded
     .toLowerCase()
-    .replace(/\.(pdf|html?|php|aspx?)$/, '')
+    .replace(/\.(pdf|s?html?|php|aspx?|xml|docx?|cgi)$/, '')
     .replace(/[^a-z0-9._-]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 60) || 'syllabus';
   return `${hash}-${base}.${kind}`;
 }
 
+// Decides by the bytes first, since servers mislabel content types. A URL
+// or header claiming PDF/DOCX whose bytes aren't that format is rejected:
+// it's usually a login or error page served in its place.
 function classify(url, contentType, bytes) {
-  const head = bytes.subarray(0, 5).toString('latin1');
-  if (head === '%PDF-') return 'pdf';
-  if (/pdf/i.test(contentType) || /\.pdf$/i.test(new URL(url).pathname)) return null; // claims PDF, isn't one
-  if (/text\/html|application\/xhtml/i.test(contentType)) return 'html';
+  const pathname = new URL(url).pathname.toLowerCase();
+  if (bytes.subarray(0, 5).toString('latin1') === '%PDF-') return 'pdf';
+  const isZip = bytes.length >= 4 && bytes.readUInt32LE(0) === 0x04034b50;
+  if (isZip && (/wordprocessingml/i.test(contentType) || pathname.endsWith('.docx'))) return 'docx';
+  if (/pdf|wordprocessingml|msword/i.test(contentType) || /\.(pdf|docx?)$/.test(pathname)) return null;
+  const startsWithMarkup = /^\s*</.test(bytes.subarray(0, 512).toString('utf8').replace(/^﻿/, ''));
+  if (!startsWithMarkup) return null;
+  if (/[/+]xml/i.test(contentType) || pathname.endsWith('.xml')) return 'xml';
+  if (/text\/html|application\/xhtml/i.test(contentType) || /\.s?html?$/.test(pathname) || !contentType) return 'html';
   return null;
 }
 
@@ -64,7 +72,7 @@ async function download(url) {
     if (attempt) await sleep(2000 * 2 ** (attempt - 1));
     try {
       const res = await fetch(url, {
-        headers: { 'User-Agent': USER_AGENT, Accept: 'application/pdf,text/html;q=0.9,*/*;q=0.5' },
+        headers: { 'User-Agent': USER_AGENT, Accept: 'application/pdf,text/html;q=0.9,application/xml;q=0.8,*/*;q=0.5' },
         redirect: 'follow',
         signal: AbortSignal.timeout(TIMEOUT_MS),
       });
@@ -132,6 +140,9 @@ async function main() {
         term: src.term || '',
         sourceUrl: src.url,
         professorCurrentlyAtScu: src.professorCurrentlyAtScu || 'unknown',
+        // Came from search-result titles/snippets: ingest lets the document's
+        // own "Instructor:" line win over it.
+        metadataSource: 'search',
       };
       console.log(`ok   ${label} → ${fileName}`);
       ok.push(src.url);

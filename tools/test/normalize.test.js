@@ -10,6 +10,13 @@ test('Workday, typed, and syllabus-header forms collide', () => {
   }
 });
 
+test('religious titles and suffixes are ignored', () => {
+  assert.equal(normalizeName('Fr. James Okafor'), normalizeName('James Okafor'));
+  assert.equal(normalizeName('Dennis C. Smolarski, S.J.'), normalizeName('Dennis Smolarski'));
+  assert.equal(normalizeName('Dennis Smolarski SJ'), normalizeName('Dennis Smolarski'));
+  assert.equal(normalizeName('John Smith Jr.'), normalizeName('Smith, John'));
+});
+
 test('hyphenated names split consistently', () => {
   assert.equal(normalizeName('Ming-Hwa Wang'), normalizeName('Wang, Ming-Hwa'));
   assert.equal(normalizeName('Ming-Hwa Wang'), 'hwa ming wang');

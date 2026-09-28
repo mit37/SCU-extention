@@ -15,6 +15,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const zlib = require('zlib');
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
 
 const { normalizeName } = require('../extension/lib/rmp.js');
@@ -22,7 +24,7 @@ const Scoring = require('../extension/lib/scoring.js');
 const Detect = require('../extension/lib/detect.js');
 
 const STANDARD_FONTS = path.join(path.dirname(require.resolve('pdfjs-dist/package.json')), 'standard_fonts') + path.sep;
-const SUPPORTED = /\.(pdf|html?)$/i;
+const SUPPORTED = /\.(pdf|html?|xml|docx)$/i;
 
 async function pdfText(filePath) {
   const data = new Uint8Array(fs.readFileSync(filePath));
@@ -60,9 +62,48 @@ function htmlToText(html) {
     .replace(/\n{3,}/g, '\n\n');
 }
 
+// Minimal zip reader — enough to pull one entry out of a .docx without a
+// dependency. Walks the central directory, then inflates the entry.
+function unzipEntry(buf, wanted) {
+  let eocd = -1;
+  for (let i = buf.length - 22; i >= Math.max(0, buf.length - 65557); i--) {
+    if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error('not a zip archive');
+  const count = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16);
+  for (let n = 0; n < count; n++) {
+    if (buf.readUInt32LE(p) !== 0x02014b50) throw new Error('corrupt zip central directory');
+    const method = buf.readUInt16LE(p + 10);
+    const compressedSize = buf.readUInt32LE(p + 20);
+    const nameLen = buf.readUInt16LE(p + 28);
+    const extraLen = buf.readUInt16LE(p + 30);
+    const commentLen = buf.readUInt16LE(p + 32);
+    const localHeader = buf.readUInt32LE(p + 42);
+    if (buf.toString('utf8', p + 46, p + 46 + nameLen) === wanted) {
+      const start = localHeader + 30 + buf.readUInt16LE(localHeader + 26) + buf.readUInt16LE(localHeader + 28);
+      const data = buf.subarray(start, start + compressedSize);
+      if (method === 0) return data;
+      if (method === 8) return zlib.inflateRawSync(data);
+      throw new Error(`unsupported zip compression method ${method}`);
+    }
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  throw new Error(`${wanted} not found in archive`);
+}
+
+function docxText(buf) {
+  const xml = unzipEntry(buf, 'word/document.xml').toString('utf8');
+  return htmlToText(xml.replace(/<w:tab\/>/g, ' ').replace(/<w:br\/>|<\/w:p>/g, '<br>'));
+}
+
 async function extractText(filePath) {
   if (/\.pdf$/i.test(filePath)) return pdfText(filePath);
-  return htmlToText(fs.readFileSync(filePath, 'utf8'));
+  if (/\.docx$/i.test(filePath)) return docxText(fs.readFileSync(filePath));
+  const markup = fs.readFileSync(filePath, 'utf8');
+  // XML syllabi have no block-level HTML tags, so break on every element.
+  if (/\.xml$/i.test(filePath)) return htmlToText(markup.replace(/<\/[^>]+>/g, '$&\n'));
+  return htmlToText(markup);
 }
 
 function parseArgs(argv) {
@@ -87,7 +128,7 @@ async function main() {
 
   const files = fs.readdirSync(dir).filter((f) => SUPPORTED.test(f)).sort();
   if (files.length === 0) {
-    console.error(`No .pdf/.html files found in ${dir}`);
+    console.error(`No .pdf/.html/.xml/.docx files found in ${dir}`);
     process.exit(1);
   }
 
@@ -111,11 +152,32 @@ async function main() {
       skipped.push(`${fileName}: no usable text (scanned image PDF or empty page?)`);
       continue;
     }
+    if (!Detect.looksLikeSyllabus(text)) {
+      skipped.push(`${fileName}: doesn't read like a syllabus (no grading/exam/policy content)`);
+      continue;
+    }
 
-    const professor = overrides.professor || Detect.professor(text);
+    // The same syllabus is often hosted at two paths; count it once.
+    const contentHash = crypto.createHash('sha1').update(text.toLowerCase().replace(/\s+/g, ' ').trim()).digest('hex').slice(0, 16);
+    const twin = Object.values(existing).flat().find((e) => e.contentHash === contentHash && (e.sourceUrl || e.fileName) !== identity);
+    if (twin) {
+      skipped.push(`${fileName}: duplicate of ${twin.sourceUrl || twin.fileName}`);
+      continue;
+    }
+
+    // Search-sourced metadata is a hint; the document's own "Instructor:" line
+    // is authoritative. Hand-written manifest entries are the reverse.
+    const detected = Detect.professor(text);
+    const professor = overrides.metadataSource === 'search'
+      ? detected || overrides.professor
+      : overrides.professor || detected;
     if (!professor) {
       skipped.push(`${fileName}: no professor name found (set "professor" in manifest.json)`);
       continue;
+    }
+    if (overrides.metadataSource === 'search' && detected && overrides.professor
+        && normalizeName(detected) !== normalizeName(overrides.professor)) {
+      console.log(`NOTE ${fileName}: search said "${overrides.professor}", document says "${detected}" — using the document`);
     }
     const key = normalizeName(professor);
     if (!key) {
@@ -131,6 +193,7 @@ async function main() {
       fileName,
       sourceUrl: overrides.sourceUrl || null,
       professorCurrentlyAtScu: overrides.professorCurrentlyAtScu || 'unknown',
+      contentHash,
       fairnessScore: analysis.fairness,
       difficultyScore: analysis.difficulty,
       signals: analysis.signals,
@@ -167,4 +230,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { htmlToText };
+module.exports = { htmlToText, docxText };

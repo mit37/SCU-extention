@@ -38,11 +38,50 @@ test('professor: skips a prose mention and finds the real label later', () => {
   assert.equal(Detect.professor(text), 'Alice Nguyen');
 });
 
+test('professor: religious titles and S.J. / Jr. suffixes', () => {
+  assert.equal(Detect.professor('Instructor: Fr. James Okafor\n'), 'James Okafor');
+  assert.equal(Detect.professor('Instructor: Rev. Mary Jones\n'), 'Mary Jones');
+  assert.equal(Detect.professor('Instructor: Dennis C. Smolarski S.J.\n'), 'Dennis C. Smolarski');
+  assert.equal(Detect.professor('Instructor: Father Robert McKay, PhD., BCC\n'), 'Robert McKay');
+  assert.equal(Detect.professor('Instructor: Jane Smith M.A.\n'), 'Jane Smith');
+});
+
+test('professor: surnames that look like degree abbreviations', () => {
+  assert.equal(Detect.professor('Instructor: Yi Ma\n'), 'Yi Ma');
+  assert.equal(Detect.professor('Instructor: Jd Ms\n'), 'Jd Ms');
+});
+
+test('professor: names that are also seasons or place words', () => {
+  assert.equal(Detect.professor('Instructor: Summer Lee\n'), 'Summer Lee');
+  assert.equal(Detect.professor('Instructor: John Winter\n'), 'John Winter');
+  assert.equal(Detect.professor('Instructor: Clara Chen\n'), 'Clara Chen');
+});
+
+test('professor: run-together lines stop at syllabus words, terms, and the school name', () => {
+  assert.equal(Detect.professor('Instructor: Kevin Lee Midterm exam 30%, Final 40%\n'), 'Kevin Lee');
+  assert.equal(Detect.professor('Instructor: Jane Smith Fall 2024 Grading\n'), 'Jane Smith');
+  assert.equal(Detect.professor('Instructor: Jane Smith Santa Clara University\n'), 'Jane Smith');
+});
+
 test('courseCode: only real SCU prefixes, normalized spacing', () => {
   assert.equal(Detect.courseCode('Meets MW 10:00 AM 12 in ROOM 204. COEN 280 Database'), 'COEN 280');
   assert.equal(Detect.courseCode('COEN280'), 'COEN 280');
   assert.equal(Detect.courseCode('CSEN-146L lab'), 'CSEN 146L');
   assert.equal(Detect.courseCode('HW 3 due'), null);
+});
+
+test('courseCode: graduate prefixes and four-digit numbers seen in real SCU syllabi', () => {
+  assert.equal(Detect.courseCode('MSIS 2634: Natural Language Processing'), 'MSIS 2634');
+  assert.equal(Detect.courseCode('PMIN 280 Summer 2025 Syllabus'), 'PMIN 280');
+  for (const code of ['THEO 252', 'PLIT 221', 'CATE 222', 'SPIR 290', 'RJUS 221', 'SCTR 132']) {
+    assert.equal(Detect.courseCode(`${code} Syllabus`), code);
+  }
+});
+
+test('looksLikeSyllabus: policy-bearing documents only', () => {
+  assert.ok(Detect.looksLikeSyllabus('Grading: Midterm 30%, Final 40%, Homework 30%. Office hours MW 2-3.'));
+  assert.ok(!Detect.looksLikeSyllabus('The Electrical Engineering program prepares students for careers in industry. Apply now.'));
+  assert.ok(!Detect.looksLikeSyllabus(''));
 });
 
 test('term: season + year variants', () => {

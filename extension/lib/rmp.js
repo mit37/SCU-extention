@@ -40,7 +40,10 @@ async function rmpGraphQL(query, variables) {
   return res.json();
 }
 
-const NAME_NOISE = new Set(['dr', 'prof', 'professor', 'mr', 'mrs', 'ms', 'mx', 'phd']);
+const NAME_NOISE = new Set([
+  'dr', 'prof', 'professor', 'mr', 'mrs', 'ms', 'mx', 'phd',
+  'fr', 'father', 'rev', 'reverend', 'sr', 'sister', 'br', 'brother', 'jr', 'sj',
+]);
 
 // Used both as a fuzzy-match key against RMP search results and as the
 // storage key syllabi/evals/cache are filed under. "Smith,Jane" (Workday),

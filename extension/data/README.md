@@ -17,7 +17,8 @@ has uploaded themselves. It exists so scores aren't cold-start-empty.
       "term": "Fall 2020",
       "fileName": "3f2a9c1b7e-syllabus280.pdf",
       "sourceUrl": "https://www.cse.scu.edu/~m1wang/database/Syllabus280.pdf",
-      "professorCurrentlyAtScu": "yes",
+      "professorCurrentlyAtScu": "unknown",
+      "contentHash": "9c1e0f3a52b7d4e8",
       "fairnessScore": 34,
       "difficultyScore": 82,
       "signals": [{ "label": "cumulative final", "difficulty": 6 }]
@@ -29,6 +30,8 @@ has uploaded themselves. It exists so scores aren't cold-start-empty.
 - The key is `lib/rmp.js`'s `normalizeName()` output (lowercased, titles and
   initials dropped, tokens sorted), the same key RMP cache entries, user
   uploads, and course evals are filed under.
+- `contentHash` identifies the extracted text, so the same syllabus hosted
+  at two URLs is only counted once.
 - `fairnessScore`, `difficultyScore`, and `signals` come from
   `Scoring.analyzeSyllabus()`. Never hand-edit them; regenerate by
   re-running the ingest so they stay consistent with live uploads.

@@ -11,15 +11,19 @@ const INSTRUCTOR_LABEL_RE = /instructor|faculty|taught\s?by/i;
 const UI_WORDS = new Set([
   'course', 'courses', 'search', 'instructor', 'instructors', 'section', 'class', 'schedule',
   'office', 'hours', 'details', 'meeting', 'patterns', 'location', 'room', 'enrolled',
-  'open', 'closed', 'waitlist', 'fall', 'winter', 'spring', 'summer', 'quarter', 'santa',
-  'clara', 'university', 'faculty', 'staff', 'information', 'home', 'page', 'view', 'all',
+  'open', 'closed', 'waitlist', 'quarter', 'university', 'faculty', 'staff', 'information',
+  'home', 'page', 'view', 'all', 'session',
 ]);
+// Summer, Winter, Clara, etc. are also real names, so these are rejected
+// only as whole phrases.
+const UI_PHRASE_RE = /^(?:santa clara|(?:fall|winter|spring|summer) (?:quarter|session|term|\d{4}))$/i;
 const processed = new WeakSet();
 const MAX_NODES_PER_SCAN = 400;
 
 function looksLikeName(text) {
   const t = text.trim();
   if (t.length < 4 || t.length > 40) return false;
+  if (UI_PHRASE_RE.test(t)) return false;
   if (t.split(/[\s,]+/).some((w) => UI_WORDS.has(w.toLowerCase()))) return false;
   return LASTFIRST_RE.test(t) || FIRSTLAST_RE.test(t);
 }

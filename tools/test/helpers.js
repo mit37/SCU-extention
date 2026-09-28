@@ -27,6 +27,43 @@ function makePdf(lines) {
   return Buffer.from(pdf, 'latin1');
 }
 
+// Minimal .docx: a zip whose word/document.xml has one <w:p> per line.
+function makeDocx(lines) {
+  const zlib = require('zlib');
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const xml = '<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'
+    + lines.map((l) => `<w:p><w:r><w:t xml:space="preserve">${esc(l)}</w:t></w:r></w:p>`).join('')
+    + '</w:body></w:document>';
+  const entries = [
+    { name: '[Content_Types].xml', data: Buffer.from('<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"/>') },
+    { name: 'word/document.xml', data: Buffer.from(xml) },
+  ];
+  const locals = [];
+  const centrals = [];
+  let offset = 0;
+  for (const e of entries) {
+    const name = Buffer.from(e.name);
+    const compressed = zlib.deflateRawSync(e.data);
+    const crc = zlib.crc32(e.data);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0); local.writeUInt16LE(20, 4); local.writeUInt16LE(8, 8);
+    local.writeUInt32LE(crc, 14); local.writeUInt32LE(compressed.length, 18); local.writeUInt32LE(e.data.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    locals.push(local, name, compressed);
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0); central.writeUInt16LE(20, 4); central.writeUInt16LE(20, 6); central.writeUInt16LE(8, 10);
+    central.writeUInt32LE(crc, 16); central.writeUInt32LE(compressed.length, 20); central.writeUInt32LE(e.data.length, 24);
+    central.writeUInt16LE(name.length, 28); central.writeUInt32LE(offset, 42);
+    centrals.push(central, name);
+    offset += 30 + name.length + compressed.length;
+  }
+  const cd = Buffer.concat(centrals);
+  const eocd = Buffer.alloc(22);
+  eocd.writeUInt32LE(0x06054b50, 0); eocd.writeUInt16LE(entries.length, 8); eocd.writeUInt16LE(entries.length, 10);
+  eocd.writeUInt32LE(cd.length, 12); eocd.writeUInt32LE(offset, 16);
+  return Buffer.concat([...locals, cd, eocd]);
+}
+
 const HARD_SYLLABUS = [
   'COEN 280 Database Systems',
   'Santa Clara University, Fall Quarter 2024',
@@ -55,4 +92,4 @@ const EASY_SYLLABUS = [
   'Office hours are listed on Camino.',
 ];
 
-module.exports = { makePdf, HARD_SYLLABUS, EASY_SYLLABUS };
+module.exports = { makePdf, makeDocx, HARD_SYLLABUS, EASY_SYLLABUS };
